@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{dd4a5adf-1178-4488-baea-3d8d9d65d902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{beeed6b1-0953-4a17-9812-663416d7f7d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{a087d465-c1d2-450f-ad6b-f95ddd78775a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{d3fbff6d-9602-4b95-b2bd-047809fd0062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Graphics\Text">
+      <UniqueIdentifier>{ba7214f0-17ae-4c6b-befa-112bf3056322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wrapper">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{69908e16-1597-4996-852d-81f13a6c9958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{da25d041-3e10-40d8-ac52-fbd766ac785c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Util.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Coord.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemClass.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClass.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="InputClass.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsClass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="FontClass.cpp">
+      <Filter>Graphics\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="FontShaderClass.cpp">
+      <Filter>Graphics\Shader Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Textclass.cpp">
+      <Filter>Graphics\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureShaderClass.cpp">
+      <Filter>Graphics\Shader Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPUClass.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapClass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dClass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Util.h">
+      <Filter>Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Coord.h">
+      <Filter>Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemClass.h">
+      <Filter>Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsClass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapClass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClass.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dClass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClass.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="CPUClass.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="FontClass.h">
+      <Filter>Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="FontShaderClass.h">
+      <Filter>Graphics\Shader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextClass.h">
+      <Filter>Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureShaderClass.h">
+      <Filter>Graphics\Shader Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelScreen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="texture.vs">
+      <Filter>Graphics\Shader Files</Filter>
+    </None>
+    <None Include="texture.ps">
+      <Filter>Graphics\Shader Files</Filter>
+    </None>
+    <None Include="font.ps">
+      <Filter>Graphics\Shader Files</Filter>
+    </None>
+    <None Include="font.vs">
+      <Filter>Graphics\Shader Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
