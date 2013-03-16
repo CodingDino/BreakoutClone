@@ -21,7 +21,8 @@ MenuScreen::MenuScreen() :
 	m_background (0),
 	m_backgroundX(0),
 	m_backgroundY(0),
-	m_player(0)
+	m_player(0),
+	m_ball(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -81,6 +82,10 @@ MenuScreen::MenuScreen() :
 	m_player = new Player();
 	m_player->Initialize();
 
+	m_ball = new Ball();
+	m_ball->Initialize();
+	m_ball->SetPlayer(m_player);
+
 	debug ("MenuScreen: object instantiated.");
 }
 
@@ -93,8 +98,9 @@ MenuScreen::~MenuScreen() {
 	m_background->Shutdown();
 	delete m_background;
 
-	// Release player
+	// Release objects
 	delete m_player;
+	delete m_ball;
 
 	debug ("MenuScreen: object destroyed.");
 }
@@ -115,9 +121,11 @@ int MenuScreen::logic() {
 	//button_score.logic(mouse_x, mouse_y);
 	//button_options.logic(mouse_x, mouse_y);
 	
-	// Player logic
+	// Object logic
 	if (m_player)
 		m_player->logic();
+	if (m_ball)
+		m_ball->logic();
 
 
 	return error;
@@ -143,9 +151,11 @@ int MenuScreen::draw() {
 	//button_score.draw();
 	//button_options.draw();
 
-	// Draw player
+	// Draw objects
 	if (m_player)
 		m_player->draw();
+	if (m_ball)
+		m_ball->draw();
 
 	return error;
 }

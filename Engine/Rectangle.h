@@ -44,6 +44,10 @@ public:
 	int virtual onKeyDown(int button);
 	int virtual onKeyUp(int button);
 
+	// Getter functions
+	Coord GetPosition() {return m_position; }
+	Coord GetDimmensions() {return m_dimmensions; }
+
 	// Setter functions
 	void virtual setPosition(Coord new_position);
 	

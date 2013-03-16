@@ -13,6 +13,7 @@
 #include "Screen.h"
 #include "Util.h"
 #include "Player.h"
+#include "Ball.h"
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: MenuScreen						|
@@ -60,8 +61,9 @@ protected:
 	// Sound
 	//Sound* music;
 
-	// Player
+	// Objects
 	Player* m_player;
+	Ball* m_ball;
 
 	//ScreenChangeButton button_exit;
 	//ScreenChangeButton button_zen;
