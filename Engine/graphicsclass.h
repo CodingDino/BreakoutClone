@@ -37,10 +37,8 @@ public:
 
 	//|-------------------------------Public Functions--------------------------|
 
-	// Constructors and Destructors
-	GraphicsClass();
-	GraphicsClass(const GraphicsClass&);
-	~GraphicsClass();
+	// Singleton instance requests
+	static GraphicsClass* GetInstance();
 	
 	// Creates and initializes all data members, sets initial graphics state
 	bool Initialize(int screenWidth, int screenHeight, HWND hwnd);
@@ -50,10 +48,6 @@ public:
 
 	// Frame-by-frame graphics processing
 	bool Frame();
-
-private:
-
-	//|-------------------------------Private Functions-------------------------|
 
 	// Calls render functions in order
 	bool Render();
@@ -69,7 +63,19 @@ private:
 
 private:
 
+	//|-------------------------------Private Functions-------------------------|
+
+	// Constructors and Destructors
+	GraphicsClass();
+	GraphicsClass(const GraphicsClass&);
+	~GraphicsClass();
+
+private:
+
 	//|-----------------------------Private Data Members------------------------|
+
+	// Instance of the singleton
+	static GraphicsClass* s_instance;
 
 	// DirectX object
 	D3DClass* m_D3D;

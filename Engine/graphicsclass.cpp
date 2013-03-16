@@ -12,6 +12,19 @@
 #include "graphicsclass.h"
 #include <cmath>
 
+// |----------------------------------------------------------------------------|
+// |						       GetInstance									|
+// |----------------------------------------------------------------------------|
+GraphicsClass* GraphicsClass::s_instance=0;
+GraphicsClass* GraphicsClass::GetInstance()
+{
+	if (!s_instance)
+	{
+		s_instance = new GraphicsClass();
+	}
+	return s_instance;
+}
+
 
 // |----------------------------------------------------------------------------|
 // |						   Default Constructor								|
@@ -53,7 +66,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_screenHeight = screenHeight;
 
 	// Create the Direct3D object.
-	m_D3D = new D3DClass;
+	m_D3D = D3DClass::GetInstance();
 	if(!m_D3D)
 	{
 		return false;
@@ -104,15 +117,15 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Initialize the bitmap objects.
 	// Determine proper scaling for bitmap
-	int bitmapWidth(0), bitmapHeight(0);
-	bitmapHeight = screenHeight;
-	bitmapWidth = min(screenWidth,1024);
-	result = m_titleScreen->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"../Engine/data/titleImage.png", bitmapWidth, bitmapHeight);
-	if(!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the m_titleScreen object.", L"Error", MB_OK);
-		return false;
-	}
+	//int bitmapWidth(0), bitmapHeight(0);
+	//bitmapHeight = screenHeight;
+	//bitmapWidth = min(screenWidth,1024*screenHeight/768);
+	//result = m_titleScreen->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"../Engine/data/titleImage.png", bitmapWidth, bitmapHeight);
+	//if(!result)
+	//{
+	//	MessageBox(hwnd, L"Could not initialize the m_titleScreen object.", L"Error", MB_OK);
+	//	return false;
+	//}
 
 	// Create the text object.
 	//m_text = new TextClass;
@@ -179,9 +192,11 @@ void GraphicsClass::Shutdown()
 	if(m_D3D)
 	{
 		m_D3D->Shutdown();
-		delete m_D3D;
 		m_D3D = 0;
 	}
+	
+	delete s_instance;
+	s_instance = 0;
 
 	return;
 }
@@ -215,13 +230,9 @@ bool GraphicsClass::Render()
 
 	result = BeginRender();
 
-	// Turn off the Z buffer and turn on alpha blending.
-	m_D3D->TurnZBufferOff();
-	m_D3D->TurnOnAlphaBlending();
-
 	// BITMAP rendering
 	// Determine correct titlescreen location
-	int xCoord = (m_screenWidth-min(1024,m_screenWidth))/2;
+	int xCoord = (m_screenWidth-min(m_screenWidth,1024*m_screenHeight/768))/2;
 	result = result && BitmapRender(*m_titleScreen, xCoord, 0);
 
 	// TEXT rendering

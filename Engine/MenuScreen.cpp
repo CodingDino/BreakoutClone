@@ -15,8 +15,13 @@
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-MenuScreen::MenuScreen(GraphicsClass* graphics) 
-	//background (NULL),
+MenuScreen::MenuScreen() :
+	m_D3D(0),
+	m_graphics(0),
+	m_background (0),
+	m_backgroundX(0),
+	m_backgroundY(0),
+	m_player(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -30,8 +35,28 @@ MenuScreen::MenuScreen(GraphicsClass* graphics)
 	// Set next screen to QUIT - it will be updated by the buttons.
 	setNextScreen(QUIT);
 
-	//// Loading graphics into Image objects
-	//background = new Image(assets.graphics.menu_screen);
+	// Get handles for Singleton managers
+	m_D3D = D3DClass::GetInstance();
+	m_graphics = GraphicsClass::GetInstance();
+
+	// Loading graphics into bitmap objects
+
+	// Determine proper scaling for background
+	int bitmapWidth(0), bitmapHeight(0);
+	bitmapHeight = SCREEN_HEIGHT;
+	bitmapWidth = min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768);
+	SCALE_X = ((float)bitmapHeight)/768;
+	SCALE_Y = ((float)bitmapWidth)/1024;
+	m_backgroundX = (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2;
+	m_backgroundY = 0;
+	m_background = new BitmapClass();
+	bool result = m_background->Initialize(m_D3D->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/titleImage.png", bitmapWidth, bitmapHeight);
+	if(!result)
+	{
+		debug("Could not initialize the m_titleScreen object.");
+		error=1;
+		return;
+	}
 
 	//// Loading music into Sound object
 	//music = new Sound(assets.audio.victory);
@@ -52,6 +77,10 @@ MenuScreen::MenuScreen(GraphicsClass* graphics)
 	//button_score.setEnabled(false);
 	//button_options.setEnabled(false);
 
+	// Player Object
+	m_player = new Player();
+	m_player->Initialize();
+
 	debug ("MenuScreen: object instantiated.");
 }
 
@@ -59,8 +88,14 @@ MenuScreen::MenuScreen(GraphicsClass* graphics)
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
 MenuScreen::~MenuScreen() {
-	//delete background;
-	//delete music;
+
+	// Release Bitmaps
+	m_background->Shutdown();
+	delete m_background;
+
+	// Release player
+	delete m_player;
+
 	debug ("MenuScreen: object destroyed.");
 }
 
@@ -68,7 +103,7 @@ MenuScreen::~MenuScreen() {
 // |							     logic()									|
 // |----------------------------------------------------------------------------|
 // The logic function, which will be called by the main game loop.
-int MenuScreen::logic(int mouse_x, int mouse_y) {
+int MenuScreen::logic() {
 	debug ("MenuScreen: logic() called.", 10);
 	
 	//// Logic Buttons
@@ -90,8 +125,9 @@ int MenuScreen::logic(int mouse_x, int mouse_y) {
 int MenuScreen::draw() {
 	debug ("MenuScreen: draw() called.", 10);
 
-	//// Draw Background
-	//if (background) background->draw();
+	// Draw Background
+	if (m_background)
+		m_graphics->BitmapRender(*m_background, m_backgroundX, m_backgroundY);
 
 	//// Draw Buttons
 	//button_exit.draw();
@@ -101,6 +137,10 @@ int MenuScreen::draw() {
 	//button_survival.draw();
 	//button_score.draw();
 	//button_options.draw();
+
+	// Draw player
+	if (m_player)
+		m_player->draw();
 
 	return error;
 }
@@ -123,7 +163,7 @@ int MenuScreen::onExit() {
 
 	//if (music) music->stop_all();
 
-	return error;
+	return (!error);
 }
 
 // |----------------------------------------------------------------------------|

@@ -16,7 +16,7 @@
 // |						   Default Constructor								|
 // |----------------------------------------------------------------------------|
 Coord::Coord() :
-	x(0), y(0), z(0)
+	x(0), y(0)
 {
 }
 
@@ -25,7 +25,7 @@ Coord::Coord() :
 // |						    Copy Constructor								|
 // |----------------------------------------------------------------------------|
 Coord::Coord(const Coord& other)
-	: x(other.x), y(other.y), z(other.z)
+	: x(other.x), y(other.y)
 {
 }
 
@@ -41,8 +41,8 @@ Coord::~Coord()
 // |----------------------------------------------------------------------------|
 // |							Other Constructors								|
 // |----------------------------------------------------------------------------|
-Coord::Coord(float new_x, float new_y, float new_z) :
-	x(new_x), y(new_y), z(new_z)
+Coord::Coord(float new_x, float new_y) :
+	x(new_x), y(new_y)
 {
 }
 	
@@ -56,5 +56,5 @@ Coord Coord::operator= (const Coord& other)
 }
 Coord Coord::operator= (const float uniform_value)
 {
-	return Coord(uniform_value, uniform_value, uniform_value);
+	return Coord(uniform_value, uniform_value);
 }

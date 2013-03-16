@@ -88,10 +88,13 @@
     <ClCompile Include="FontClass.cpp" />
     <ClCompile Include="FontShaderClass.cpp" />
     <ClCompile Include="FPSClass.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="Textclass.cpp" />
@@ -110,9 +113,12 @@
     <ClInclude Include="FontClass.h" />
     <ClInclude Include="FontShaderClass.h" />
     <ClInclude Include="FPSClass.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="GraphicsClass.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="MenuScreen.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SystemClass.h" />

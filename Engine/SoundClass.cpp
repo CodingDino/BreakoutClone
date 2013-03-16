@@ -12,6 +12,19 @@
 // |----------------------------------------------------------------------------|
 #include "soundclass.h"
 
+// |----------------------------------------------------------------------------|
+// |						       GetInstance									|
+// |----------------------------------------------------------------------------|
+SoundClass* SoundClass::s_instance=0;
+SoundClass* SoundClass::GetInstance()
+{
+	if (!s_instance)
+	{
+		s_instance = new SoundClass();
+	}
+	return s_instance;
+}
+
 
 // |----------------------------------------------------------------------------|
 // |						   Default Constructor								|
@@ -62,10 +75,10 @@ bool SoundClass::Initialize(HWND hwnd)
 	}
  
 	// Load a wave audio file onto a secondary buffer.
-	result = LoadWaveFile("../Engine/data/music03.wav", &m_music, hwnd);
+	result = LoadWaveFile("../Engine/data/music05.wav", &m_music, hwnd);
 	if(!result)
 	{
-		MessageBox(hwnd, L"Could not load music03.wav.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not load music05.wav.", L"Error", MB_OK);
 		return false;
 	}
  
@@ -96,6 +109,9 @@ void SoundClass::Shutdown()
 
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
+	
+	delete s_instance;
+	s_instance = 0;
  
 	return;
 }

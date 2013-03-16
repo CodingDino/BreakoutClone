@@ -23,6 +23,7 @@
 #include "cpuclass.h"
 #include "timerclass.h"
 #include "soundclass.h"
+#include "game.h"
 
 
 // |----------------------------------------------------------------------------|
@@ -76,6 +77,9 @@ private:
 
 	// Graphics handler
 	GraphicsClass* m_Graphics;	
+
+	// Game logic handler
+	Game* m_game;
 	
 	// Timing classes
 	FpsClass* m_Fps;

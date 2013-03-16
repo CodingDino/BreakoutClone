@@ -21,7 +21,8 @@ SystemClass::SystemClass() :
 	m_Fps(0),
 	m_Cpu(0),
 	m_Timer(0),
-	m_Sound(0)
+	m_Sound(0),
+	m_game(0)
 {
 }
 
@@ -74,7 +75,7 @@ bool SystemClass::Initialize()
 	}
 
 	// Create the graphics object.  This object will handle rendering all the graphics for this application.
-	m_Graphics = new GraphicsClass;
+	m_Graphics = GraphicsClass::GetInstance();
 	if(!m_Graphics)
 	{
 		return false;
@@ -123,7 +124,7 @@ bool SystemClass::Initialize()
 	}
 
 	// Create the sound object.
-	m_Sound = new SoundClass;
+	m_Sound = SoundClass::GetInstance();
 	if(!m_Sound)
 	{
 		return false;
@@ -137,6 +138,21 @@ bool SystemClass::Initialize()
 		return false;
 	}
 	m_Sound->StartMusic();
+
+	// Create the game object.
+	m_game = new Game();
+	if(!m_game)
+	{
+		return false;
+	}
+ 
+	// Initialize the game object.
+	result = m_game->Initialize();
+	if(!result)
+	{
+		MessageBox(m_hwnd, L"Could not initialize game logic handler.", L"Error", MB_OK);
+		return false;
+	}
 	
 	return true;
 }
@@ -147,6 +163,13 @@ bool SystemClass::Initialize()
 // |----------------------------------------------------------------------------|
 void SystemClass::Shutdown()
 {
+
+	// Release the game object.
+	if(m_game)
+	{
+		delete m_game;
+		m_game = 0;
+	}
 
 	// Release the timer object.
 	if(m_Timer)
@@ -174,8 +197,6 @@ void SystemClass::Shutdown()
 	if(m_Graphics)
 	{
 		m_Graphics->Shutdown();
-		delete m_Graphics;
-		m_Graphics = 0;
 	}
 
 	// Release the input object.
@@ -190,8 +211,6 @@ void SystemClass::Shutdown()
 	if(m_Sound)
 	{
 		m_Sound->Shutdown();
-		delete m_Sound;
-		m_Sound = 0;
 	}
 
 	// Shutdown the window.
@@ -279,8 +298,12 @@ bool SystemClass::Frame()
 	m_Fps->Frame();
 	m_Cpu->Frame();
 
-	// Do the frame processing for the graphics object.
-	result = m_Graphics->Frame();
+	// Run game logic
+	result = m_Graphics->BeginRender();
+	result = m_game->Frame();
+	result = m_Graphics->EndRender();
+
+	// Render graphics
 
 	if(!result)
 	{
@@ -339,6 +362,8 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 	// Determine the resolution of the clients desktop screen.
 	screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	SCREEN_WIDTH = screenWidth;
+	SCREEN_HEIGHT = screenHeight;
 
 	// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
 	if(FULL_SCREEN)

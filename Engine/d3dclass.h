@@ -34,10 +34,8 @@ public:
 
 	//|-------------------------------Public Functions--------------------------|
 
-	// Constructors and Destructors
-	D3DClass();
-	D3DClass(const D3DClass&);
-	~D3DClass();
+	// Singleton instance requests
+	static D3DClass* GetInstance();
 
 	// Initializes the DirectX interface
 	bool Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
@@ -74,7 +72,15 @@ public:
 
 private:
 
+	// Constructors and Destructors
+	D3DClass();
+	D3DClass(const D3DClass&);
+	~D3DClass();
+
 	//|-----------------------------Private Data Members------------------------|
+
+	// Instance of the singleton
+	static D3DClass* s_instance;
 
 	// Vsync setting
 	bool m_vsync_enabled;

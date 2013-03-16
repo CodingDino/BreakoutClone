@@ -11,6 +11,10 @@
 // |								Constants									|
 // |----------------------------------------------------------------------------|
 const int DEBUG_MODE = 1;
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+extern float SCALE_X;
+extern float SCALE_Y;
 
 
 // |----------------------------------------------------------------------------|

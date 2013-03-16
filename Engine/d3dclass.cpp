@@ -11,6 +11,18 @@
 // |----------------------------------------------------------------------------|
 #include "d3dclass.h"
 
+// |----------------------------------------------------------------------------|
+// |						       GetInstance									|
+// |----------------------------------------------------------------------------|
+D3DClass* D3DClass::s_instance=0;
+D3DClass* D3DClass::GetInstance()
+{
+	if (!s_instance)
+	{
+		s_instance = new D3DClass();
+	}
+	return s_instance;
+}
 
 // |----------------------------------------------------------------------------|
 // |						   Default Constructor								|
@@ -532,6 +544,9 @@ void D3DClass::Shutdown()
 		m_swapChain->Release();
 		m_swapChain = 0;
 	}
+	
+	delete s_instance;
+	s_instance = 0;
 
 	return;
 }

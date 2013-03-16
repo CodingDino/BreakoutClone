@@ -21,12 +21,12 @@ public:
 	~Coord();
 	
 	// Argument Constructors and Operator Overloading
-	Coord(const float new_x, const float new_y, const float new_z);
+	Coord(const float new_x, const float new_y);
 	Coord operator= (const Coord& other);
 	Coord operator= (const float uniform_value);
 	
 	//|-----------------------------Public Data Members-------------------------|
 
 	// floats holding coordinate values
-	float x, y, z;
+	float x, y;
 };

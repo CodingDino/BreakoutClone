@@ -11,6 +11,8 @@
 // |----------------------------------------------------------------------------|
 // |								Includes									|
 // |----------------------------------------------------------------------------|
+#include "graphicsclass.h"
+#include "D3DClass.h"
 
 // |----------------------------------------------------------------------------|
 // |								enum SCREEN									|
@@ -30,7 +32,7 @@ public:
 	// ~Screen();
 	// Destructor
 
-	int virtual logic(int mouse_x, int mouse_y) = 0;
+	int virtual logic() = 0;
 	// The logic function, which will be called by the main game loop.
 	// TO BE IMPLEMENTED BY SUB CLASS
 

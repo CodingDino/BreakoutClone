@@ -11,8 +11,8 @@
 // |								Includes									|
 // |----------------------------------------------------------------------------|
 #include "Screen.h"
-#include "graphicsclass.h"
 #include "Util.h"
+#include "Player.h"
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: MenuScreen						|
@@ -21,13 +21,13 @@ class MenuScreen : public Screen {
 
 public:
 
-	MenuScreen (GraphicsClass* graphics);
+	MenuScreen ();
 	// Constructor
 
 	~MenuScreen();
 	// Destructor
 
-	int virtual logic(int mouse_x, int mouse_y);
+	int virtual logic();
 	// The logic function, which will be called by the main game loop.
 
 	int virtual draw();
@@ -48,9 +48,20 @@ public:
 protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+	// Handles to Singleton Managers
+	D3DClass* m_D3D;
+	GraphicsClass* m_graphics;
+
+	// Images
 	BitmapClass* m_background;
-	//Image* background;
+	int m_backgroundX, m_backgroundY;
+
+	// Sound
 	//Sound* music;
+
+	// Player
+	Player* m_player;
 
 	//ScreenChangeButton button_exit;
 	//ScreenChangeButton button_zen;

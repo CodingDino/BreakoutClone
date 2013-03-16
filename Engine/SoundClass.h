@@ -54,10 +54,8 @@ public:
 
 	//|-------------------------------Public Functions--------------------------|
 
-	// Constructors and Destructors
-	SoundClass();
-	SoundClass(const SoundClass&);
-	~SoundClass();
+	// Singleton instance requests
+	static SoundClass* GetInstance();
 	
 	// Initializes sound settings
 	bool Initialize(HWND);
@@ -81,6 +79,11 @@ public:
 private:
 
 	//|------------------------------Private Functions--------------------------|
+
+	// Constructors and Destructors
+	SoundClass();
+	SoundClass(const SoundClass&);
+	~SoundClass();
 	
 	// Initializes/shuts down the direct sound portion of the object
 	bool InitializeDirectSound(HWND);
@@ -96,6 +99,9 @@ private:
 private:
 	
 	//|-----------------------------Private Data Members------------------------|
+
+	// Instance of the singleton
+	static SoundClass* s_instance;
 
 	IDirectSound8* m_DirectSound;
 	IDirectSoundBuffer* m_primaryBuffer;
