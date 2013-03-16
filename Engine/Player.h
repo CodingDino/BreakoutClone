@@ -12,6 +12,7 @@
 #include "Util.h"
 #include "Rectangle.h"
 #include "Screen.h"
+#include "InputClass.h"
 
 // |----------------------------------------------------------------------------|
 // |					      Class Definition: Player							|
@@ -26,7 +27,7 @@ public:
 	~Player ();
 	// De-constructor
 
-	int virtual logic(int mouse_x, int mouse_y);
+	int virtual logic();
 	// Performs logic functions for the object
 	
 	// Input functions

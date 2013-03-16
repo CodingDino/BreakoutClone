@@ -114,6 +114,11 @@ int MenuScreen::logic() {
 	//button_survival.logic(mouse_x, mouse_y);
 	//button_score.logic(mouse_x, mouse_y);
 	//button_options.logic(mouse_x, mouse_y);
+	
+	// Player logic
+	if (m_player)
+		m_player->logic();
+
 
 	return error;
 }

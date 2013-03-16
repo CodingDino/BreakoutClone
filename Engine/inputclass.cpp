@@ -12,6 +12,19 @@
 // |----------------------------------------------------------------------------|
 #include "inputclass.h"
 
+// |----------------------------------------------------------------------------|
+// |						       GetInstance									|
+// |----------------------------------------------------------------------------|
+InputClass* InputClass::s_instance=0;
+InputClass* InputClass::GetInstance()
+{
+	if (!s_instance)
+	{
+		s_instance = new InputClass();
+	}
+	return s_instance;
+}
+
 
 // |----------------------------------------------------------------------------|
 // |						   Default Constructor								|
@@ -37,6 +50,8 @@ InputClass::InputClass(const InputClass& other)
 // |----------------------------------------------------------------------------|
 InputClass::~InputClass()
 {
+	delete s_instance;
+	s_instance=0;
 }
 
 

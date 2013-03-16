@@ -36,10 +36,8 @@ public:
 
 	//|-------------------------------Public Functions--------------------------|
 
-	// Constructors and Destructors
-	InputClass();
-	InputClass(const InputClass&);
-	~InputClass();
+	// Singleton instance requests
+	static InputClass* GetInstance();
 	
 	// Initializes mouse and keyboard settings
 	bool Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight);
@@ -75,6 +73,11 @@ private:
 
 	//|-------------------------------Private Functions-------------------------|
 
+	// Constructors and Destructors
+	InputClass();
+	InputClass(const InputClass&);
+	~InputClass();
+
 	// Read the current state of the keyboard
 	bool ReadKeyboard();
 
@@ -87,6 +90,9 @@ private:
 private:
 
 	//|-----------------------------Private Data Members------------------------|
+
+	// Instance of the singleton
+	static InputClass* s_instance;
 
 	// Pointers to mouse, keyboard, input
 	IDirectInput8* m_directInput;

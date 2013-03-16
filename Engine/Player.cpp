@@ -26,7 +26,7 @@ Player::Player()
 	m_graphic->Initialize((D3DClass::GetInstance())->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/paddle.png", m_dimmensions.x, m_dimmensions.y);
 
 	// Set location
-	m_position.x = SCREEN_WIDTH/2- m_dimmensions.x/2;
+	m_position.x = (SCREEN_WIDTH - m_dimmensions.x)/2;
 	m_position.y = SCREEN_HEIGHT-SCREEN_HEIGHT*0.1;
 
 	debug ("Player: object instantiated.");
@@ -43,11 +43,19 @@ Player::~Player() {
 // |----------------------------------------------------------------------------|
 // |							    logic()										|
 // |----------------------------------------------------------------------------|
-int Player::logic(int mouse_x, int mouse_y) {
+int Player::logic() {
 	debug ("Player: logic() called.", 10);
 
 	//// Record mouse location
 	//mouse_position = Coord(mouse_x, mouse_y);
+
+	// Set X coordinate to mouse x, clamp to screen
+	int mouseX, mouseY;
+	InputClass::GetInstance()->GetMouseLocation(mouseX,mouseY);
+	int leftLimit, rightLimit;
+	leftLimit = (SCREEN_WIDTH - ((float)1024)*SCALE_X)/2+35*SCALE_X;
+	rightLimit = SCREEN_WIDTH - leftLimit - m_dimmensions.x;
+	m_position.x = min(max(mouseX,leftLimit),rightLimit);
 
 	//// Move based on velocity
 	//if(has_target) {

@@ -60,7 +60,7 @@ bool SystemClass::Initialize()
 	InitializeWindows(screenWidth, screenHeight);
 
 	// Create the input object.  This object will be used to handle reading the keyboard input from the user.
-	m_Input = new InputClass;
+	m_Input = InputClass::GetInstance();
 	if(!m_Input)
 	{
 		return false;
@@ -203,7 +203,6 @@ void SystemClass::Shutdown()
 	if(m_Input)
 	{
 		m_Input->Shutdown();
-		delete m_Input;
 		m_Input = 0;
 	}
 
