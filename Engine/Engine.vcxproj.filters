@@ -89,6 +89,9 @@
     <ClCompile Include="LevelScreen.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
+    <ClCompile Include="cameraclass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="LevelScreen.h">
       <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraclass.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

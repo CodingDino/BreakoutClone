@@ -16,6 +16,7 @@
 #include "Util.h"
 #include "BitmapClass.h"
 #include "textclass.h"
+#include "cameraclass.h"
 
 // |----------------------------------------------------------------------------|
 // |								 Globals									|
@@ -73,11 +74,14 @@ private:
 	// DirectX object
 	D3DClass* m_D3D;
 
+	// Camera
+	CameraClass* m_camera;
+
 	// Shaders
 	TextureShaderClass* m_textureShader;
 
 	// 2D Bitmaps
-	//BitmapClass* m_controlsScreen;
+	BitmapClass* m_titleScreen;
 
 	// Text Objects
 	//TextClass* m_text;

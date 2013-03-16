@@ -48,6 +48,7 @@ public:
 protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+	BitmapClass* m_background;
 	//Image* background;
 	//Sound* music;
 
