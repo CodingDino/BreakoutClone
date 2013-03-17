@@ -108,7 +108,7 @@ private:
 
 	// Hold the sound samples
 	IDirectSoundBuffer8* m_music;
-	IDirectSoundBuffer8* m_shipEngine;
+	//IDirectSoundBuffer8* m_shipEngine;
 
 	// Mute toggle
 	bool m_globalMute;

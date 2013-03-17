@@ -33,7 +33,7 @@ SoundClass::SoundClass() :
 	m_DirectSound(0),
 	m_primaryBuffer(0),
 	m_music(0),
-	m_shipEngine(0),
+//	m_shipEngine(0),
 	m_playMusic(false),
 	m_playShipEngine(false),
 	m_globalMute(false),
@@ -83,16 +83,16 @@ bool SoundClass::Initialize(HWND hwnd)
 	}
  
 	// Load a wave audio file onto a secondary buffer.
-	result = LoadWaveFile("../Engine/data/engine_sound02.wav", &m_shipEngine, hwnd);
-	if(!result)
-	{
-		MessageBox(hwnd, L"Could not load engine_sound02.wav.", L"Error", MB_OK);
-		return false;
-	}
+	//result = LoadWaveFile("../Engine/data/engine_sound02.wav", &m_shipEngine, hwnd);
+	//if(!result)
+	//{
+	//	MessageBox(hwnd, L"Could not load engine_sound02.wav.", L"Error", MB_OK);
+	//	return false;
+	//}
 
 	// Start everything playing (it will be silent)
 	m_music->Play(0, 0, DSBPLAY_LOOPING);
-	m_shipEngine->Play(0, 0, DSBPLAY_LOOPING);
+	//m_shipEngine->Play(0, 0, DSBPLAY_LOOPING);
 
 	return true;
 }
@@ -105,7 +105,7 @@ void SoundClass::Shutdown()
 {
 	// Release the secondary buffers.
 	ShutdownWaveFile(&m_music);
-	ShutdownWaveFile(&m_shipEngine);
+	//ShutdownWaveFile(&m_shipEngine);
 
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
@@ -418,11 +418,11 @@ bool SoundClass::Frame(float frameTime)
 	}
 
 	// Process Ship Engine
-	result =  ProcessSound(frameTime, m_shipEngine, m_playShipEngine, m_volumeShipEngine);
-	if(!result)
-	{
-		return false;
-	}
+	//result =  ProcessSound(frameTime, m_shipEngine, m_playShipEngine, m_volumeShipEngine);
+	//if(!result)
+	//{
+	//	return false;
+	//}
 
 	return true;
 
@@ -461,7 +461,7 @@ bool SoundClass::ProcessSound(float frameTime, IDirectSoundBuffer8* &buffer,
 // |----------------------------------------------------------------------------|
 bool SoundClass::StartShipEngine()
 {
-	m_playShipEngine = true;
+	//m_playShipEngine = true;
 	return true;
 }
 
@@ -471,7 +471,7 @@ bool SoundClass::StartShipEngine()
 // |----------------------------------------------------------------------------|
 bool SoundClass::StopShipEngine()
 {
-	m_playShipEngine = false;
+	//m_playShipEngine = false;
 	return true;
 }
 

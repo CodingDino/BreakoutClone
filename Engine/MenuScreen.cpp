@@ -58,7 +58,7 @@ MenuScreen::MenuScreen() :
 	m_backgroundX = (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2;
 	m_backgroundY = 0;
 	m_background = new BitmapClass();
-	bool result = m_background->Initialize(m_D3D->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/titleImage.png", bitmapWidth, bitmapHeight);
+	bool result = m_background->Initialize(m_D3D->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/menu_background.png", bitmapWidth, bitmapHeight);
 	if(!result)
 	{
 		debug("Could not initialize the m_titleScreen object.");
