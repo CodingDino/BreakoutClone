@@ -17,6 +17,7 @@
 // |----------------------------------------------------------------------------|
 LevelScreen::LevelScreen() :
 	m_background(0),
+	m_livesImage(0),
 	m_player(0),
 	m_ball(0),
 	m_top(0),
@@ -30,7 +31,10 @@ LevelScreen::LevelScreen() :
 	m_activeBlocks(0),
 	m_levelNumber(0),
 	m_dialogue(false),
-	m_dialogueBackground(0)
+	m_dialogueBackground(0),
+	m_lives(0),
+	m_gameOver(false),
+	m_gameOverDialogue(0)
 {
 
 	// Set MENU as the next screen after this one
@@ -43,6 +47,17 @@ LevelScreen::LevelScreen() :
 	// Dialogue
 	m_dialogueBackground = new BitmapClass();
 	m_dialogueBackground->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_message.png", 481*SCALE_X, 275*SCALE_Y);
+	
+	m_gameOverDialogue = new BitmapClass();
+	m_gameOverDialogue->Initialize(D3DClass::GetInstance()->GetDevice(), 
+		SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/game_over.png", 
+		481*SCALE_X, 275*SCALE_Y);
+
+	// Lives
+	m_livesImage = new BitmapClass();
+	m_livesImage->Initialize(D3DClass::GetInstance()->GetDevice(), 
+		SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_lives.png", 150*SCALE_X, 35*SCALE_Y);
 
 	// Numbers
 	m_numbers = new BitmapClass*[10];
@@ -145,6 +160,7 @@ LevelScreen::~LevelScreen() {
 	// Clean up all dynamic objects
 	delete m_background; m_background = 0;
 	delete m_dialogueBackground; m_dialogueBackground = 0;
+	delete m_gameOverDialogue; m_gameOverDialogue = 0;
 	delete m_player; m_player = 0;
 	delete m_ball; m_ball = 0;
 	delete m_top; m_top = 0;
@@ -215,7 +231,10 @@ int LevelScreen::logic() {
 	m_ball->Collision(m_left);
 	m_ball->Collision(m_right);
 	if(m_ball->CheckCollision(m_bottom))
+	{
 		m_ball->Respawn();
+		--m_lives;
+	}
 
 	// Player Collisions
 	if(m_ball->Collision(m_player))
@@ -235,6 +254,12 @@ int LevelScreen::logic() {
 				// TODO: Increment score
 			}
 		}
+	}
+
+	// Check if we've used up all our lives
+	if (m_lives <= 0)
+	{
+		done = true;
 	}
 
 	return error;
@@ -270,6 +295,11 @@ int LevelScreen::draw() {
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]), 
 			(SCREEN_WIDTH-26*SCALE_X)/2+26*SCALE_X+5*SCALE_X, (SCREEN_HEIGHT-35*SCALE_Y)/2);
 	}
+	else if(m_dialogue)
+	{
+		// Display level dialogue
+		GraphicsClass::GetInstance()->BitmapRender(*m_gameOverDialogue, (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
+	}
 	else
 	{
 		// Draw blocks
@@ -284,6 +314,16 @@ int LevelScreen::draw() {
 			m_player->draw();
 		if (m_ball)
 			m_ball->draw();
+
+		// Draw UI
+		GraphicsClass::GetInstance()->BitmapRender(*(m_livesImage), 
+			(SCREEN_WIDTH-400*SCALE_X), 0);
+		if (m_lives < 0) m_lives = 0;
+		if (m_lives > 9) m_lives = 9;
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[m_lives]), 
+			(SCREEN_WIDTH-400*SCALE_X)+150*SCALE_X, 0);
+
+		
 	}
 
 	return error;
@@ -302,6 +342,9 @@ int LevelScreen::onLoad() {
 	// Set up the ball
 	m_ball->Respawn();
 	m_ball->ResetSpeed();
+
+	// Reset lives
+	m_lives = 3;
 
 	return error;
 }

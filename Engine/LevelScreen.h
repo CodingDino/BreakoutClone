@@ -56,7 +56,7 @@ protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	// Images
+	// Background
 	BitmapClass* m_background;
 
 	// Objects
@@ -80,4 +80,11 @@ protected:
 	BitmapClass* m_dialogueBackground;
 	int m_levelNumber;
 	BitmapClass** m_numbers;
+
+	// Lives
+	int m_lives;
+	BitmapClass* m_livesImage;
+	bool m_gameOver;
+	BitmapClass* m_gameOverDialogue;
+
 };
