@@ -14,6 +14,13 @@
 #include "Rectangle.h"
 #include "Screen.h"
 
+
+// |----------------------------------------------------------------------------|
+// |								enum BLOCK									|
+// |----------------------------------------------------------------------------|
+enum BLOCK {BLOCK_YELLOW, BLOCK_ORANGE, BLOCK_RED, NUM_BLOCKS};
+
+
 // |----------------------------------------------------------------------------|
 // |					      Class Definition: Ball							|
 // |----------------------------------------------------------------------------|
@@ -35,15 +42,25 @@ public:
 
 	// Collision
 	bool virtual HandleCollision(RectangleClass* collider);
-
-	// TODO: Function to check if dead
+	
+	bool IsDead() { if(m_hp <= 0) return true; return false;}
+	// Checks if block should be despawned
+	
+	void SetType(BLOCK blockType);
+	// Sets the type for this block
 	
 protected:
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 	int m_hp;
+	BLOCK m_blockType;
 
 	// Block sprites
-	BitmapClass* m_normal;	// Graphic
+	BitmapClass* m_yellow1;
+	BitmapClass* m_orange1;	
+	BitmapClass* m_orange2;	
+	BitmapClass* m_red1;	
+	BitmapClass* m_red2;	
+	BitmapClass* m_red3;	
 };

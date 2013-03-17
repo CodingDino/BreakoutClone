@@ -115,34 +115,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	// Initialize the bitmap objects.
-	// Determine proper scaling for bitmap
-	//int bitmapWidth(0), bitmapHeight(0);
-	//bitmapHeight = screenHeight;
-	//bitmapWidth = min(screenWidth,1024*screenHeight/768);
-	//result = m_titleScreen->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight, L"../Engine/data/titleImage.png", bitmapWidth, bitmapHeight);
-	//if(!result)
-	//{
-	//	MessageBox(hwnd, L"Could not initialize the m_titleScreen object.", L"Error", MB_OK);
-	//	return false;
-	//}
-
-	// Create the text object.
-	//m_text = new TextClass;
-	//if(!m_text)
-	//{
-	//	return false;
-	//}
-
-	// Initialize the text object.
-	//result = m_Text->Initialize(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), hwnd, screenWidth, screenHeight, baseViewMatrix);
-	//if(!result)
-	//{
-	//	MessageBox(hwnd, L"Could not initialize the text object.", L"Error", MB_OK);
-	//	return false;
-	//}
-	
-
 	// Turn off the Z buffer and turn on alpha blending.
 	m_D3D->TurnZBufferOff();
 	m_D3D->TurnOnAlphaBlending();

@@ -55,7 +55,7 @@ int Game::Initialize() {
 		}
 		screens[MENU] = new MenuScreen();
 		screens[LEVEL] = new LevelScreen();
-		//screens[SCORE] = new ScoreScreen();
+		screens[SCORES] = new ScoreScreen();
 		//screens[QUITSCREEN] = new QuitScreen();
 		current_screen = screens[MENU];
 		error = error || current_screen->onLoad();

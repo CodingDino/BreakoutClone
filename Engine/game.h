@@ -14,6 +14,7 @@
 #include "Util.h"
 #include "MenuScreen.h"
 #include "LevelScreen.h"
+#include "ScoreScreen.h"
 
 
 // |----------------------------------------------------------------------------|

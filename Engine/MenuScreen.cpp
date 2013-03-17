@@ -193,6 +193,10 @@ int MenuScreen::draw() {
 // Called when the screen is loaded.
 int MenuScreen::onLoad() {
 	debug("MenuScreen: onLoad called");
+
+	done = false;
+	m_ball->Respawn();
+
 	return error;
 }
 

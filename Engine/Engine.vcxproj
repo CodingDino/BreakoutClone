@@ -98,6 +98,7 @@
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="ScoreScreen.cpp" />
     <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="Textclass.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="ScoreScreen.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SystemClass.h" />

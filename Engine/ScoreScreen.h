@@ -2,7 +2,7 @@
 // Developed by Bounder Studios
 // Copyright Sarah Herzog, 2011, all rights reserved.
 //
-// LevelScreen
+// ScoreScreen
 //		Contains all objects pertaining to the zen mode. Manages the
 //		logic and draw loops for that screen.
 #pragma once
@@ -15,19 +15,19 @@
 #include "graphicsclass.h"
 #include "Player.h"
 #include "Ball.h"
-#include "Block.h"
+#include "Button.h"
 
 // |----------------------------------------------------------------------------|
-// |						  Class Definition: LevelScreen						|
+// |						  Class Definition: ScoreScreen						|
 // |----------------------------------------------------------------------------|
-class LevelScreen : public Screen {
+class ScoreScreen : public Screen {
 
 public:
 
-	LevelScreen ();
+	ScoreScreen ();
 	// Constructor
 
-	~LevelScreen();
+	~ScoreScreen();
 	// Destructor
 
 	int virtual logic();
@@ -57,7 +57,6 @@ protected:
 	RectangleClass* m_right;
 	RectangleClass* m_bottom;
 
-	// Blocks
-	int m_numBlocks;
-	Block** m_blocks;
+	// Button
+	Button* m_menu;
 };

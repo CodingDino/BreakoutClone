@@ -2,7 +2,7 @@
 // Developed by Bounder Studios
 // Copyright Sarah Herzog, 2011, all rights reserved.
 //
-// LevelScreen
+// ScoreScreen
 //		Contains all objects pertaining to the zen mode. Manages the
 //		logic and draw loops for that screen.
 #pragma once
@@ -10,12 +10,12 @@
 // |----------------------------------------------------------------------------|
 // |								Includes									|
 // |----------------------------------------------------------------------------|
-#include "LevelScreen.h"
+#include "ScoreScreen.h"
 
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-LevelScreen::LevelScreen() :
+ScoreScreen::ScoreScreen() :
 	m_background(0),
 	m_player(0),
 	m_ball(0),
@@ -23,7 +23,7 @@ LevelScreen::LevelScreen() :
 	m_left(0),
 	m_right(0),
 	m_bottom(0),
-	m_blocks(0)
+	m_menu(0)
 {
 
 	// Set MENU as the next screen after this one
@@ -31,7 +31,7 @@ LevelScreen::LevelScreen() :
 
 	// Background
 	m_background = new BitmapClass();
-	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_background.png", 1024*SCALE_X, 768*SCALE_Y);
+	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/score_background.png", 1024*SCALE_X, 768*SCALE_Y);
 	if(!result)
 	{
 		debug("Could not initialize the m_background image.");
@@ -68,53 +68,39 @@ LevelScreen::LevelScreen() :
 	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
 	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
 
-	// Blocks
-	// TODO: Blocks from file (probably should go in OnLoad instead)
-	m_numBlocks = 3;
-	m_blocks = new Block*[m_numBlocks];
-	for (int i=0; i<m_numBlocks; ++i)
-	{
-		m_blocks[i] = new Block();
-		m_blocks[i]->Initialize();
-		m_blocks[i]->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2+i*50*SCALE_X*1.1,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
-		m_blocks[i]->SetType((BLOCK)i);
-	}
+	// Button
+	m_menu = new Button();
+	m_menu->Initialize(this, MENU, L"../Engine/data/button_menu.png");
+	m_menu->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
-	debug ("LevelScreen: object instantiated.");
+
+	debug ("ScoreScreen: object instantiated.");
 }
 
 // |----------------------------------------------------------------------------|
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
-LevelScreen::~LevelScreen() {
+ScoreScreen::~ScoreScreen() {
 
 	// Clean up all dynamic objects
-	delete m_background; m_background = 0;
-	delete m_player; m_player = 0;
-	delete m_ball; m_ball = 0;
-	delete m_top; m_top = 0;
-	delete m_left; m_left = 0;
-	delete m_right; m_right = 0;
-	delete m_bottom; m_bottom = 0;
+	delete m_background;
+	delete m_player;
+	delete m_ball;
+	delete m_top;
+	delete m_left;
+	delete m_right;
+	delete m_bottom;
+	delete m_menu;
 
-	for (int i=0; i<m_numBlocks; ++i)
-	{
-		if(m_blocks[i])
-			delete m_blocks[i];
-	}
-	delete m_blocks; m_blocks = 0;
-	m_numBlocks = 0;
-	
-
-	debug ("LevelScreen: object destroyed.");
+	debug ("ScoreScreen: object destroyed.");
 }
 
 // |----------------------------------------------------------------------------|
 // |							     logic()									|
 // |----------------------------------------------------------------------------|
 // The logic function, which will be called by the main game loop.
-int LevelScreen::logic() {
-	debug ("LevelScreen: logic() called.", 10);
+int ScoreScreen::logic() {
+	debug ("ScoreScreen: logic() called.", 10);
 	
 	// Player and ball logic
 	if (m_player)
@@ -133,20 +119,8 @@ int LevelScreen::logic() {
 	if(m_ball->Collision(m_player))
 		m_ball->PlayerCollide(m_player);
 
-	// Block Collisions
-	for (int i=0; i<m_numBlocks; ++i)
-	{
-		if (m_blocks[i])
-		{
-			m_ball->Collision(m_blocks[i]);
-			if(m_blocks[i]->IsDead())
-			{
-				delete m_blocks[i];
-				m_blocks[i] = 0;
-				// TODO: Increment score
-			}
-		}
-	}
+	// Button
+	m_ball->Collision(m_menu);
 
 	return error;
 }
@@ -155,19 +129,16 @@ int LevelScreen::logic() {
 // |							     draw()										|
 // |----------------------------------------------------------------------------|
 // The draw function, which will be called by the main game loop.
-int LevelScreen::draw() {
-	debug ("LevelScreen: draw() called.", 10);
+int ScoreScreen::draw() {
+	debug ("ScoreScreen: draw() called.", 10);
 	
 	// Draw Background
 	if (m_background)
 		GraphicsClass::GetInstance()->BitmapRender(*m_background, (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2, 0);
 
-	// Draw blocks
-	for (int i=0; i<m_numBlocks; ++i)
-	{
-		if(m_blocks[i])
-			m_blocks[i]->draw();
-	}
+	// Draw Buttons
+	if (m_menu)
+		m_menu->draw();
 
 	// Draw player and ball
 	if (m_player)
@@ -182,8 +153,8 @@ int LevelScreen::draw() {
 // |							    onLoad()									|
 // |----------------------------------------------------------------------------|
 // Called when the screen is loaded.
-int LevelScreen::onLoad() {
-	debug ("LevelScreen: onLoad called.");
+int ScoreScreen::onLoad() {
+	debug ("ScoreScreen: onLoad called.");
 
 	done = false;
 	m_ball->Respawn();
@@ -197,8 +168,8 @@ int LevelScreen::onLoad() {
 // |							    onExit()									|
 // |----------------------------------------------------------------------------|
 // Called when switching to a different screen
-int LevelScreen::onExit() {
-	debug ("LevelScreen: onExit called.");
+int ScoreScreen::onExit() {
+	debug ("ScoreScreen: onExit called.");
 
 	//if (music) music->stop();
 

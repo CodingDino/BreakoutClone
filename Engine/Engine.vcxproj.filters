@@ -110,6 +110,9 @@
     <ClCompile Include="Button.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScreen.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
