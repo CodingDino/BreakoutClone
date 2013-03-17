@@ -37,6 +37,9 @@ public:
 
 	int virtual logic(int mouse_x, int mouse_y);
 	// Performs logic functions for the object
+
+	void virtual ColorChange() {}
+	// Changes to next color
 	
 	// Input functions
 	int virtual onMouseDown(int button);

@@ -16,7 +16,13 @@
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-Ball::Ball()
+Ball::Ball() :
+	m_spriteIndex(0),
+	m_green(0),
+	m_blue(0),
+	m_red(0),
+	m_orange(0),
+	m_yellow(0)
 {
 
 	debug ("Ball: object instantiated.");
@@ -160,6 +166,7 @@ bool Ball::PlayerCollide(Player* collider)
 	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
 // |								Respawn()									|
 // |----------------------------------------------------------------------------|
@@ -167,6 +174,29 @@ void Ball::Respawn()
 {
 	
 	m_attached = true;
+
+	return;
+}
+
+
+// |----------------------------------------------------------------------------|
+// |						      ColorChange()									|
+// |----------------------------------------------------------------------------|
+void Ball::ColorChange()
+{
+	++m_spriteIndex;	
+	m_spriteIndex = m_spriteIndex%5;
+
+	if (m_spriteIndex == 0)
+		m_graphic = m_green;
+	else if (m_spriteIndex == 1)
+		m_graphic = m_blue;
+	else if (m_spriteIndex == 2)
+		m_graphic = m_red;
+	else if (m_spriteIndex == 3)
+		m_graphic = m_orange;
+	else if (m_spriteIndex == 4)
+		m_graphic = m_yellow;
 
 	return;
 }

@@ -41,6 +41,9 @@ public:
 	void Respawn();
 	// Attaches the ball back to the paddle
 
+	void ColorChange();
+	// Changes to next color
+
 	// Getter/Setter
 	void SetPlayer(Player* player) { m_player = player; }
 
@@ -56,9 +59,10 @@ protected:
 	Player* m_player;
 
 	// Ball sprites
-	BitmapClass* m_green;	// Graphic
-	BitmapClass* m_blue;	// Graphic
-	BitmapClass* m_red;		// Graphic
-	BitmapClass* m_orange;	// Graphic
-	BitmapClass* m_yellow;	// Graphic
+	int m_spriteIndex;
+	BitmapClass* m_green;	
+	BitmapClass* m_blue;	
+	BitmapClass* m_red;		
+	BitmapClass* m_orange;	
+	BitmapClass* m_yellow;	
 };

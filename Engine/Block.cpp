@@ -96,6 +96,9 @@ bool Block::HandleCollision(RectangleClass* collider)
 		if (m_blockType == BLOCK_ORANGE)
 		{
 			m_graphic = m_orange1;
+
+			// Orange changes ball color
+			collider->ColorChange();
 		}
 		else if (m_blockType == BLOCK_RED)
 		{
