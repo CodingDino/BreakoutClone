@@ -359,8 +359,6 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 	// Determine the resolution of the clients desktop screen.
 	screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
-	SCREEN_WIDTH = screenWidth;
-	SCREEN_HEIGHT = screenHeight;
 
 	// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
 	if(FULL_SCREEN)
@@ -389,6 +387,9 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 		posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth)  / 2;
 		posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 	}
+	
+	SCREEN_WIDTH = screenWidth;
+	SCREEN_HEIGHT = screenHeight;
 
 	// Create the window with the screen settings and get the handle to it.
 	m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, m_applicationName, 

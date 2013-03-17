@@ -16,6 +16,10 @@
 #include "Player.h"
 #include "Ball.h"
 #include "Block.h"
+#include "inputclass.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: LevelScreen						|
@@ -41,6 +45,12 @@ public:
 
 	int virtual onExit();
 	// Called when switching to a different screen
+
+	void loadFromFile(const char* fileName);
+	// Loads a level from file
+
+	void loadNext();
+	// Loads the next level
 	
 protected:
 
@@ -59,5 +69,11 @@ protected:
 
 	// Blocks
 	int m_numBlocks;
+	int m_activeBlocks;
 	Block** m_blocks;
+
+	// Level info
+	bool m_dialogue;
+	BitmapClass* m_dialogueBackground;
+	int m_levelNumber;
 };

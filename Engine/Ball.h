@@ -16,6 +16,8 @@
 #include "InputClass.h"
 #include "Player.h"
 
+#define START_SPEED 7
+
 // |----------------------------------------------------------------------------|
 // |					      Class Definition: Ball							|
 // |----------------------------------------------------------------------------|
@@ -43,6 +45,12 @@ public:
 
 	void ColorChange();
 	// Changes to next color
+
+	void IncreaseSpeed() {m_speed += 1;}
+	// Increases the speed
+
+	void ResetSpeed() {m_speed = START_SPEED;}
+	// Return speed to start speed
 
 	// Getter/Setter
 	void SetPlayer(Player* player) { m_player = player; }

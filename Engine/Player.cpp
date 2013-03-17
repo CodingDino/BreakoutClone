@@ -57,9 +57,6 @@ Player::~Player() {
 int Player::logic() {
 	debug ("Player: logic() called.", 10);
 
-	//// Record mouse location
-	//mouse_position = Coord(mouse_x, mouse_y);
-
 	// Set X coordinate to mouse x, clamp to screen
 	int mouseX, mouseY;
 	InputClass::GetInstance()->GetMouseLocation(mouseX,mouseY);
@@ -67,24 +64,6 @@ int Player::logic() {
 	leftLimit = (SCREEN_WIDTH - ((float)1024)*SCALE_X)/2+35*SCALE_X;
 	rightLimit = SCREEN_WIDTH - leftLimit - m_dimmensions.x;
 	m_position.x = min(max(mouseX,leftLimit),rightLimit);
-
-	//// Move based on velocity
-	//if(has_target) {
-	//	Coord new_position = Coord(position+velocity);
-
-	//	// Keep player in screen
-	//	if (new_position.x+radius > SCREEN_W) new_position.x = SCREEN_W - radius;
-	//	if (new_position.y+radius > SCREEN_H) new_position.y = SCREEN_H - radius;
-	//	if (new_position.x-radius < 0) new_position.x = radius;
-	//	if (new_position.y-radius < 0) new_position.y = radius;
-
-	//	// See if we've reached destination
-	//	if (abs(target.x - position.x) < abs(velocity.x)) new_position.x = target.x;
-	//	if (abs(target.y - position.y) < abs(velocity.y)) new_position.y = target.y;
-	//	if (target.x == new_position.x && target.y == new_position.y) has_target = false;
-
-	//	setPosition(new_position);
-	//}
 
 	return m_error;
 }

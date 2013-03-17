@@ -23,7 +23,11 @@ LevelScreen::LevelScreen() :
 	m_left(0),
 	m_right(0),
 	m_bottom(0),
-	m_blocks(0)
+	m_blocks(0),
+	m_activeBlocks(0),
+	m_levelNumber(1),
+	m_dialogue(true),
+	m_dialogueBackground(0)
 {
 
 	// Set MENU as the next screen after this one
@@ -32,6 +36,16 @@ LevelScreen::LevelScreen() :
 	// Background
 	m_background = new BitmapClass();
 	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_background.png", 1024*SCALE_X, 768*SCALE_Y);
+	if(!result)
+	{
+		debug("Could not initialize the m_background image.");
+		error=1;
+		return;
+	}
+
+	// Dialogue
+	m_dialogueBackground = new BitmapClass();
+	result = m_dialogueBackground->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_message.png", 481*SCALE_X, 275*SCALE_Y);
 	if(!result)
 	{
 		debug("Could not initialize the m_background image.");
@@ -70,14 +84,11 @@ LevelScreen::LevelScreen() :
 
 	// Blocks
 	// TODO: Blocks from file (probably should go in OnLoad instead)
-	m_numBlocks = 3;
+	m_numBlocks = 17*21;
 	m_blocks = new Block*[m_numBlocks];
 	for (int i=0; i<m_numBlocks; ++i)
 	{
-		m_blocks[i] = new Block();
-		m_blocks[i]->Initialize();
-		m_blocks[i]->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2+i*50*SCALE_X*1.1,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
-		m_blocks[i]->SetType((BLOCK)i);
+		m_blocks[i] = 0;
 	}
 
 	debug ("LevelScreen: object instantiated.");
@@ -90,6 +101,7 @@ LevelScreen::~LevelScreen() {
 
 	// Clean up all dynamic objects
 	delete m_background; m_background = 0;
+	delete m_dialogueBackground; m_dialogueBackground = 0;
 	delete m_player; m_player = 0;
 	delete m_ball; m_ball = 0;
 	delete m_top; m_top = 0;
@@ -115,7 +127,30 @@ LevelScreen::~LevelScreen() {
 // The logic function, which will be called by the main game loop.
 int LevelScreen::logic() {
 	debug ("LevelScreen: logic() called.", 10);
+
+	// Check if it's time to load the next level
+	if(m_activeBlocks <= 0)
+	{
+		// Load next level
+		loadNext();
+
+		// Increase speed of ball
+		m_ball->IncreaseSpeed();
+
+		// Reset ball location
+		m_ball->Respawn();
+
+		return error;
+	}
 	
+	if (m_dialogue)
+	{
+		// Check for click
+		if((InputClass::GetInstance())->IsMouseButtonPressed(0))
+			m_dialogue = false;
+		return error;
+	}
+
 	// Player and ball logic
 	if (m_player)
 		m_player->logic();
@@ -143,9 +178,14 @@ int LevelScreen::logic() {
 			{
 				delete m_blocks[i];
 				m_blocks[i] = 0;
+				--m_activeBlocks;
 				// TODO: Increment score
 			}
 		}
+	}
+	if(m_activeBlocks <= 0)
+	{
+		m_dialogue = true;
 	}
 
 	return error;
@@ -162,18 +202,26 @@ int LevelScreen::draw() {
 	if (m_background)
 		GraphicsClass::GetInstance()->BitmapRender(*m_background, (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2, 0);
 
-	// Draw blocks
-	for (int i=0; i<m_numBlocks; ++i)
+	if(m_dialogue)
 	{
-		if(m_blocks[i])
-			m_blocks[i]->draw();
+		// Display level dialogue
+		GraphicsClass::GetInstance()->BitmapRender(*m_dialogueBackground, (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
 	}
+	else
+	{
+		// Draw blocks
+		for (int i=0; i<m_numBlocks; ++i)
+		{
+			if(m_blocks[i])
+				m_blocks[i]->draw();
+		}
 
-	// Draw player and ball
-	if (m_player)
-		m_player->draw();
-	if (m_ball)
-		m_ball->draw();
+		// Draw player and ball
+		if (m_player)
+			m_player->draw();
+		if (m_ball)
+			m_ball->draw();
+	}
 
 	return error;
 }
@@ -185,8 +233,15 @@ int LevelScreen::draw() {
 int LevelScreen::onLoad() {
 	debug ("LevelScreen: onLoad called.");
 
+	// Screen is not done
 	done = false;
+
+	// Load the first level from file
+	loadFromFile("../Engine/data/level_test.txt");
+
+	// Set up the ball
 	m_ball->Respawn();
+	m_ball->ResetSpeed();
 	
 	//if (music) music->loop();
 
@@ -203,4 +258,67 @@ int LevelScreen::onExit() {
 	//if (music) music->stop();
 
 	return error;
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							  loadFromFile()								|
+// |----------------------------------------------------------------------------|
+void LevelScreen::loadFromFile(const char* fileName)
+{
+	debug ("LevelScreen: loadFromFile called.");
+	int block (0);
+	int i (0), x(0), y(0);
+	const int PADDING(5);
+	const int XUNIT(50*SCALE_X	+ PADDING*SCALE_X), YUNIT(20*SCALE_Y	+ PADDING*SCALE_Y);
+	const int XSTART( (SCREEN_WIDTH - 50*SCALE_X)/2		- 8  * XUNIT );
+	const int YSTART( (SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)	- 20 * YUNIT );
+	
+	ifstream inFile;  // object for reading from a file
+	inFile.open(fileName, ios::in);
+	if (!inFile) {
+		debug("LevelScreen: can't open level file.");
+		return;
+	}
+
+	while (!inFile.eof()) 
+	{
+		// read in this block
+		inFile >> block;
+
+		// Set up the block if there is one
+		if(block)
+		{
+			m_blocks[i] = new Block();
+			m_blocks[i]->Initialize();
+			x = XSTART+(i%17)*XUNIT;
+			y = YSTART+(floor(((float)i)/17))*YUNIT;
+			m_blocks[i]->SetPosition(Coord(x,y));
+			m_blocks[i]->SetType((BLOCK)(block-1));
+			++m_activeBlocks;
+		}
+
+		// increment
+		++i;
+	}
+
+
+}
+
+// |----------------------------------------------------------------------------|
+// |							  loadFromFile()								|
+// |----------------------------------------------------------------------------|
+void LevelScreen::loadNext()
+{
+	++m_levelNumber;
+
+	int index = (m_levelNumber-1)%3;
+
+	if (index == 0)
+		loadFromFile("../Engine/data/level_1.txt");
+	else if (index == 1)
+		loadFromFile("../Engine/data/level_2.txt");
+	else if (index == 2)
+		loadFromFile("../Engine/data/level_3.txt");
+
 }

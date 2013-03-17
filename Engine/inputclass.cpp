@@ -34,6 +34,8 @@ InputClass::InputClass()
 	m_directInput = 0;
 	m_keyboard = 0;
 	m_mouse = 0;
+	m_mouseDown = false;
+	m_mousePressed = false;
 }
 
 
@@ -269,6 +271,15 @@ void InputClass::ProcessInput()
 	if(m_mouseX > m_screenWidth)  { m_mouseX = m_screenWidth; }
 	if(m_mouseY > m_screenHeight) { m_mouseY = m_screenHeight; }
 	
+	// Update mouse status
+	if (!m_mouseDown && (bool)m_mouseState.rgbButtons[0])
+		m_mousePressed = true;
+	if (m_mouseDown)
+		m_mousePressed = false;
+	if (!(bool)m_mouseState.rgbButtons[0])
+		m_mousePressed = false;
+	m_mouseDown = (bool)m_mouseState.rgbButtons[0];
+
 	return;
 }
 

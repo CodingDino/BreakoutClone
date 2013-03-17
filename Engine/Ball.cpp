@@ -59,7 +59,7 @@ bool Ball::Initialize() {
 	m_position.y = (float)SCREEN_HEIGHT-SCREEN_HEIGHT*0.2;
 
 	// Set speed
-	m_speed = 7;
+	m_speed = START_SPEED;
 
 	debug ("Ball: object initialized.");
 
@@ -81,7 +81,7 @@ int Ball::logic() {
 	debug ("Ball: logic() called.", 10);
 
 	// Fire ball if mouse button is pressed
-	if (m_attached && m_player && (InputClass::GetInstance())->IsMouseButtonDown(0))
+	if (m_attached && m_player && (InputClass::GetInstance())->IsMouseButtonPressed(0))
 	{
 		m_attached = false;
 		m_velocity.y = (float)-1*m_speed;
