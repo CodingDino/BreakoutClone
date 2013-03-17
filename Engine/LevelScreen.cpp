@@ -38,23 +38,44 @@ LevelScreen::LevelScreen() :
 
 	// Background
 	m_background = new BitmapClass();
-	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_background.png", 1024*SCALE_X, 768*SCALE_Y);
-	if(!result)
-	{
-		debug("Could not initialize the m_background image.");
-		error=1;
-		return;
-	}
+	m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_background.png", 1024*SCALE_X, 768*SCALE_Y);
 
 	// Dialogue
 	m_dialogueBackground = new BitmapClass();
-	result = m_dialogueBackground->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_message.png", 481*SCALE_X, 275*SCALE_Y);
-	if(!result)
-	{
-		debug("Could not initialize the m_background image.");
-		error=1;
-		return;
-	}
+	m_dialogueBackground->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_message.png", 481*SCALE_X, 275*SCALE_Y);
+
+	// Numbers
+	m_numbers = new BitmapClass*[10];
+	m_numbers[0] = new BitmapClass();
+	m_numbers[0]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_0.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[1] = new BitmapClass();
+	m_numbers[1]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_1.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[2] = new BitmapClass();
+	m_numbers[2]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_2.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[3] = new BitmapClass();
+	m_numbers[3]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_3.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[4] = new BitmapClass();
+	m_numbers[4]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_4.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[5] = new BitmapClass();
+	m_numbers[5]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_5.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[6] = new BitmapClass();
+	m_numbers[6]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_6.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[7] = new BitmapClass();
+	m_numbers[7]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_7.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[8] = new BitmapClass();
+	m_numbers[8]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_8.png", 26*SCALE_X, 35*SCALE_Y);
+	m_numbers[9] = new BitmapClass();
+	m_numbers[9]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_9.png", 26*SCALE_X, 35*SCALE_Y);
 
 	// Player and Ball
 	m_player = new Player();
@@ -156,9 +177,10 @@ int LevelScreen::logic() {
 	// Check if it's time to load the next level
 	if(m_activeBlocks <= 0)
 	{
-		// Make sure the dialogue is displayed
+		// Display the dialogue
 		if (!m_dialogue)
 		{
+			++m_levelNumber;
 			m_dialogue = true;
 			return error;
 		}
@@ -233,6 +255,20 @@ int LevelScreen::draw() {
 	{
 		// Display level dialogue
 		GraphicsClass::GetInstance()->BitmapRender(*m_dialogueBackground, (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
+
+		// Determine level to display
+		int level = m_levelNumber;
+		int hundreds = ((int)floor((float)level/100))%10;
+		int tens = ((int)floor((float)level/10))%10;
+		int ones = level%10;
+
+		// Display numbers
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundreds]), 
+			(SCREEN_WIDTH-26*SCALE_X)/2-26*SCALE_X-5*SCALE_X, (SCREEN_HEIGHT-35*SCALE_Y)/2);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]), 
+			(SCREEN_WIDTH-26*SCALE_X)/2, (SCREEN_HEIGHT-35*SCALE_Y)/2);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]), 
+			(SCREEN_WIDTH-26*SCALE_X)/2+26*SCALE_X+5*SCALE_X, (SCREEN_HEIGHT-35*SCALE_Y)/2);
 	}
 	else
 	{
@@ -315,9 +351,6 @@ void LevelScreen::loadFromFile(const char* fileName, int* levelInfo)
 // |----------------------------------------------------------------------------|
 void LevelScreen::loadNext()
 {
-	// Increment level counter
-	++m_levelNumber;
-
 	// Variables
 	int index = (m_levelNumber-1)%3;
 	int* levelInfo;

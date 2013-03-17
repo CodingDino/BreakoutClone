@@ -79,4 +79,5 @@ protected:
 	bool m_dialogue;
 	BitmapClass* m_dialogueBackground;
 	int m_levelNumber;
+	BitmapClass** m_numbers;
 };
