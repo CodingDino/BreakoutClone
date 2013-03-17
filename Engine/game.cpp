@@ -54,7 +54,9 @@ int Game::Initialize() {
 			screens[i] = NULL;
 		}
 		screens[MENU] = new MenuScreen();
-		//screens[LEVEL] = new LevelScreen();
+		screens[LEVEL] = new LevelScreen();
+		//screens[SCORE] = new ScoreScreen();
+		//screens[QUITSCREEN] = new QuitScreen();
 		current_screen = screens[MENU];
 		error = error || current_screen->onLoad();
 	}
@@ -100,6 +102,6 @@ int Game::Frame() {
 
 	}
 
-	if(error) return false;
+	//if(error) return false;
 	return true;
 }

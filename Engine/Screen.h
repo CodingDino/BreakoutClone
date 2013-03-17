@@ -59,13 +59,6 @@ public:
 
 	void virtual setDone(bool new_done) { done = new_done; }
 	// Sets whether the screen will quit or not
-
-	// Input functions
-	// TO BE IMPLEMENTED BY SUB CLASS
-	int virtual onMouseDown(int button) = 0;
-	int virtual onMouseUp(int button) = 0;
-	int virtual onKeyDown(int button) = 0;
-	int virtual onKeyUp(int button) = 0;
 	
 protected:
 

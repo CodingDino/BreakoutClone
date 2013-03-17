@@ -15,23 +15,60 @@
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-LevelScreen::LevelScreen(GraphicsClass* graphics)
-	//background (NULL),
-	//music (NULL),
-	//player (NULL)
+LevelScreen::LevelScreen() :
+	m_background(0),
+	m_player(0),
+	m_ball(0),
+	m_top(0),
+	m_left(0),
+	m_right(0),
+	m_bottom(0),
+	m_blocks(0)
 {
 
-	// Set QUIT as the next screen after this one
-	setNextScreen(QUIT); 
+	// Set MENU as the next screen after this one
+	setNextScreen(MENU); 
 
-	//// Loading graphics into Image objects
-	//background = new Image(assets.graphics.grass);
+	// Background
+	m_background = new BitmapClass();
+	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/level_background.png", 1024*SCALE_X, 768*SCALE_Y);
+	if(!result)
+	{
+		debug("Could not initialize the m_background image.");
+		error=1;
+		return;
+	}
 
-	//// Loading music into Sound object
-	//music = new Sound(assets.audio.meadow);
+	// Player and Ball
+	m_player = new Player();
+	m_player->Initialize();
 
-	//// Creating player object
-	//player = new Player(assets);
+	m_ball = new Ball();
+	m_ball->Initialize();
+	m_ball->SetPlayer(m_player);
+
+	// Stage borders
+	m_top = new RectangleClass();
+	m_top->Initialize();
+	m_top->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_top->SetPosition(Coord(0,0));
+
+	m_left = new RectangleClass();
+	m_left->Initialize();
+	m_left->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
+	m_left->SetPosition(Coord((SCREEN_WIDTH-1024*SCALE_X)/2,0));
+
+	m_right = new RectangleClass();
+	m_right->Initialize();
+	m_right->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
+	m_right->SetPosition(Coord(SCREEN_WIDTH-(SCREEN_WIDTH-1024*SCALE_X)/2-35*SCALE_X,0));
+
+	m_bottom = new RectangleClass();
+	m_bottom->Initialize();
+	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
+
+	// TODO: Blocks
 
 	debug ("LevelScreen: object instantiated.");
 }
@@ -40,9 +77,17 @@ LevelScreen::LevelScreen(GraphicsClass* graphics)
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
 LevelScreen::~LevelScreen() {
-	//delete background;
-	//delete music;
-	//delete player;
+
+	// Clean up all dynamic objects
+	delete m_background;
+	delete m_player;
+	delete m_ball;
+	delete m_top;
+	delete m_left;
+	delete m_right;
+	delete m_bottom;
+	delete m_blocks; // TODO: Delete each object in array
+
 	debug ("LevelScreen: object destroyed.");
 }
 
@@ -50,10 +95,27 @@ LevelScreen::~LevelScreen() {
 // |							     logic()									|
 // |----------------------------------------------------------------------------|
 // The logic function, which will be called by the main game loop.
-int LevelScreen::logic(int mouse_x, int mouse_y) {
+int LevelScreen::logic() {
 	debug ("LevelScreen: logic() called.", 10);
+	
+	// Player and ball logic
+	if (m_player)
+		m_player->logic();
+	if (m_ball)
+		m_ball->logic();
 
-	//if (player) player->logic(mouse_x, mouse_y);
+	// Border Collisions
+	m_ball->Collision(m_top);
+	m_ball->Collision(m_left);
+	m_ball->Collision(m_right);
+	if(m_ball->CheckCollision(m_bottom))
+		m_ball->Respawn();
+
+	// Player Collisions
+	if(m_ball->Collision(m_player))
+		m_ball->PlayerCollide(m_player);
+
+	// TODO: Block Collisions
 
 	return error;
 }
@@ -64,9 +126,18 @@ int LevelScreen::logic(int mouse_x, int mouse_y) {
 // The draw function, which will be called by the main game loop.
 int LevelScreen::draw() {
 	debug ("LevelScreen: draw() called.", 10);
+	
+	// Draw Background
+	if (m_background)
+		GraphicsClass::GetInstance()->BitmapRender(*m_background, (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2, 0);
 
-	//if (background) background->draw();
-	//if (player) player->draw();
+	// TODO: Draw blocks
+
+	// Draw player and ball
+	if (m_player)
+		m_player->draw();
+	if (m_ball)
+		m_ball->draw();
 
 	return error;
 }
@@ -91,54 +162,6 @@ int LevelScreen::onExit() {
 	debug ("LevelScreen: onExit called.");
 
 	//if (music) music->stop();
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onMouseDown()									|
-// |----------------------------------------------------------------------------|
-// Called when a mouse button is pressed down
-int LevelScreen::onMouseDown(int button) {
-	debug ("LevelScreen: onMouseDown called.");
-	
-	//if (player) player->onMouseDown(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onMouseUp()									|
-// |----------------------------------------------------------------------------|
-// Called when a mouse button is released
-int LevelScreen::onMouseUp(int button) {
-	debug ("LevelScreen: onMouseUp called.");
-	
-	//if (player) player->onMouseUp(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onKeyDown()									|
-// |----------------------------------------------------------------------------|
-// Called when a keyboard button is pressed down
-int LevelScreen::onKeyDown(int button) {
-	debug ("LevelScreen: onKeyDown called.");
-	
-	//if (player) player->onKeyDown(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							   onKeyUp()									|
-// |----------------------------------------------------------------------------|
-// Called when a keyboard button is released
-int LevelScreen::onKeyUp(int button) {
-	debug ("LevelScreen: onKeyUp called.");
-	
-	//if (player) player->onKeyUp(button);
 
 	return error;
 }

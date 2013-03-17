@@ -42,12 +42,6 @@ public:
 
 	int virtual onExit();
 	// Called when switching to a different screen
-
-	// Input functions
-	int onMouseDown(int button);
-	int onMouseUp(int button);
-	int onKeyDown(int button);
-	int onKeyUp(int button);
 	
 protected:
 

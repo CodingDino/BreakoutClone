@@ -13,6 +13,9 @@
 #include "Util.h"
 #include "Screen.h"
 #include "graphicsclass.h"
+#include "Player.h"
+#include "Ball.h"
+#include "Block.h"
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: LevelScreen						|
@@ -21,13 +24,13 @@ class LevelScreen : public Screen {
 
 public:
 
-	LevelScreen (GraphicsClass* graphics);
+	LevelScreen ();
 	// Constructor
 
 	~LevelScreen();
 	// Destructor
 
-	int virtual logic(int mouse_x, int mouse_y);
+	int virtual logic();
 	// The logic function, which will be called by the main game loop.
 
 	int virtual draw();
@@ -38,17 +41,22 @@ public:
 
 	int virtual onExit();
 	// Called when switching to a different screen
-
-	// Input functions
-	int onMouseDown(int button);
-	int onMouseUp(int button);
-	int onKeyDown(int button);
-	int onKeyUp(int button);
 	
 protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-	//Image* background;
-	//Sound* music;
-	//Player* player;
+
+	// Images
+	BitmapClass* m_background;
+
+	// Objects
+	Player* m_player;
+	Ball* m_ball;
+	RectangleClass* m_top;
+	RectangleClass* m_left;
+	RectangleClass* m_right;
+	RectangleClass* m_bottom;
+
+	// Blocks
+	Block** m_blocks;
 };

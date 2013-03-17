@@ -30,14 +30,6 @@ MenuScreen::MenuScreen() :
 	m_start(0),
 	m_scores(0),
 	m_quit(0)
-	//music (NULL),
-	//button_exit(assets, this, QUIT, "QUIT"),
-	//button_zen(assets, this, ZEN, "ZEN MODE"),
-	//button_adventure(assets, this, ADVENTURE, "ADVENTURE MODE"),
-	//button_time(assets, this, TIME, "TIME MODE"),
-	//button_survival(assets, this, SURVIVAL, "SURVIVAL MODE"),
-	//button_score(assets, this, SCORE, "HIGH SCORES"),
-	//button_options(assets, this, OPTIONS, "OPTIONS") 
 	{
 
 	// Set next screen to QUIT - it will be updated by the buttons.
@@ -47,9 +39,7 @@ MenuScreen::MenuScreen() :
 	m_D3D = D3DClass::GetInstance();
 	m_graphics = GraphicsClass::GetInstance();
 
-	// Loading graphics into bitmap objects
-
-	// Determine proper scaling for background
+	// Background
 	int bitmapWidth(0), bitmapHeight(0);
 	bitmapHeight = SCREEN_HEIGHT;
 	bitmapWidth = min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768);
@@ -65,25 +55,6 @@ MenuScreen::MenuScreen() :
 		error=1;
 		return;
 	}
-
-	//// Loading music into Sound object
-	//music = new Sound(assets.audio.victory);
-
-	//// Set button locations
-	//button_zen.setAnchor(Coord(250,100));
-	//button_adventure.setAnchor(Coord(550,100));
-	//button_time.setAnchor(Coord(150,300));
-	//button_survival.setAnchor(Coord(650,300));
-	//button_score.setAnchor(Coord(50,550));
-	//button_options.setAnchor(Coord(400,550));
-	//button_exit.setAnchor(Coord(750,550));
-
-	//// Temporarily disable buttons
-	//button_adventure.setEnabled(false);
-	//button_time.setEnabled(false);
-	//button_survival.setEnabled(false);
-	//button_score.setEnabled(false);
-	//button_options.setEnabled(false);
 
 	// Objects
 	m_player = new Player();
@@ -158,16 +129,7 @@ MenuScreen::~MenuScreen() {
 int MenuScreen::logic() {
 	debug ("MenuScreen: logic() called.", 10);
 	
-	//// Logic Buttons
-	//button_exit.logic(mouse_x, mouse_y);
-	//button_zen.logic(mouse_x, mouse_y);
-	//button_adventure.logic(mouse_x, mouse_y);
-	//button_time.logic(mouse_x, mouse_y);
-	//button_survival.logic(mouse_x, mouse_y);
-	//button_score.logic(mouse_x, mouse_y);
-	//button_options.logic(mouse_x, mouse_y);
-	
-	// Object logic
+	// Player and ball logic
 	if (m_player)
 		m_player->logic();
 	if (m_ball)
@@ -242,82 +204,6 @@ int MenuScreen::onExit() {
 	debug ("MenuScreen: onExit called.");
 
 	//if (music) music->stop_all();
-
-	return (!error);
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onMouseDown()									|
-// |----------------------------------------------------------------------------|
-// Called when a mouse button is pressed down
-int MenuScreen::onMouseDown(int button) {
-	debug ("MenuScreen: onMouseDown called.");
-	
-	//// Call button functions
-	//button_exit.onMouseDown(button);
-	//button_zen.onMouseDown(button);
-	//button_adventure.onMouseDown(button);
-	//button_time.onMouseDown(button);
-	//button_survival.onMouseDown(button);
-	//button_score.onMouseDown(button);
-	//button_options.onMouseDown(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onMouseUp()									|
-// |----------------------------------------------------------------------------|
-// Called when a mouse button is released
-int MenuScreen::onMouseUp(int button) {
-	debug ("MenuScreen: onMouseUp called.");
-	
-	//// Call button functions
-	//button_exit.onMouseUp(button);
-	//button_zen.onMouseUp(button);
-	//button_adventure.onMouseUp(button);
-	//button_time.onMouseUp(button);
-	//button_survival.onMouseUp(button);
-	//button_score.onMouseUp(button);
-	//button_options.onMouseUp(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							  onKeyDown()									|
-// |----------------------------------------------------------------------------|
-// Called when a keyboard button is pressed down
-int MenuScreen::onKeyDown(int button) {
-	debug ("MenuScreen: onKeyDown called.");
-	
-	//// Call button functions
-	//button_exit.onKeyDown(button);
-	//button_zen.onKeyDown(button);
-	//button_adventure.onKeyDown(button);
-	//button_time.onKeyDown(button);
-	//button_survival.onKeyDown(button);
-	//button_score.onKeyDown(button);
-	//button_options.onKeyDown(button);
-
-	return error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							   onKeyUp()									|
-// |----------------------------------------------------------------------------|
-// Called when a keyboard button is released
-int MenuScreen::onKeyUp(int button) {
-	debug ("MenuScreen: onKeyUp called.");
-	
-	//// Call button functions
-	//button_exit.onKeyUp(button);
-	//button_zen.onKeyUp(button);
-	//button_adventure.onKeyUp(button);
-	//button_time.onKeyUp(button);
-	//button_survival.onKeyUp(button);
-	//button_score.onKeyUp(button);
-	//button_options.onKeyUp(button);
 
 	return error;
 }
