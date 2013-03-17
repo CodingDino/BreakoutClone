@@ -69,9 +69,12 @@ protected:
 	RectangleClass* m_top;
 	RectangleClass* m_left;
 	RectangleClass* m_right;
+	RectangleClass* m_bottom;
 
 	// Buttons
 	Block* m_start;
+	Block* m_scores;
+	Block* m_quit;
 
 	//ScreenChangeButton button_exit;
 	//ScreenChangeButton button_zen;

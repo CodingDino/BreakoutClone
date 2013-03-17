@@ -52,6 +52,7 @@ public:
 	// Getter functions
 	Coord GetPosition() {return m_position; }
 	Coord GetDimmensions() {return m_dimmensions; }
+	Coord GetVelocity() {return m_velocity; }
 
 	// Setter functions
 	void virtual SetPosition(Coord new_position) {m_position = new_position;}

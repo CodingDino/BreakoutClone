@@ -35,6 +35,9 @@ public:
 	bool isAttached();
 	// Checks if ball is attached to the paddle
 
+	void Respawn();
+	// Attaches the ball back to the paddle
+
 	// Getter/Setter
 	void SetPlayer(Player* player) { m_player = player; }
 

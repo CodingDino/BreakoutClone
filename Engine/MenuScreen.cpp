@@ -26,7 +26,10 @@ MenuScreen::MenuScreen() :
 	m_top(0),
 	m_left(0),
 	m_right(0),
-	m_start(0)
+	m_bottom(0),
+	m_start(0),
+	m_scores(0),
+	m_quit(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -105,9 +108,22 @@ MenuScreen::MenuScreen() :
 	m_right->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
 	m_right->SetPosition(Coord(SCREEN_WIDTH-(SCREEN_WIDTH-1024*SCALE_X)/2-35*SCALE_X,0));
 
+	m_bottom = new RectangleClass();
+	m_bottom->Initialize();
+	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
+
 	m_start = new Block();
 	m_start->Initialize();
-	m_start->SetPosition(Coord((SCREEN_WIDTH - 20*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_start->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+
+	m_scores = new Block();
+	m_scores->Initialize();
+	m_scores->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3-20*SCALE_Y-3));
+
+	m_quit = new Block();
+	m_quit->Initialize();
+	m_quit->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2-50*SCALE_X-3,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
 	debug ("MenuScreen: object instantiated.");
 }
@@ -127,7 +143,10 @@ MenuScreen::~MenuScreen() {
 	delete m_top;
 	delete m_left;
 	delete m_right;
+	delete m_bottom;
 	delete m_start;
+	delete m_scores;
+	delete m_quit;
 
 	debug ("MenuScreen: object destroyed.");
 }
@@ -158,9 +177,15 @@ int MenuScreen::logic() {
 	m_ball->Collision(m_top);
 	m_ball->Collision(m_left);
 	m_ball->Collision(m_right);
-	m_ball->Collision(m_start);
 	if(m_ball->Collision(m_player))
 		m_ball->PlayerCollide(m_player);
+
+	if(m_ball->CheckCollision(m_bottom))
+		m_ball->Respawn();
+	
+	m_ball->Collision(m_start);
+	m_ball->Collision(m_scores);
+	m_ball->Collision(m_quit);
 
 	return error;
 }
@@ -192,6 +217,10 @@ int MenuScreen::draw() {
 		m_ball->draw();
 	if (m_start)
 		m_start->draw();
+	if (m_scores)
+		m_scores->draw();
+	if (m_quit)
+		m_quit->draw();
 
 	return error;
 }

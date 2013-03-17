@@ -127,10 +127,10 @@ bool RectangleClass::Collision(RectangleClass* collider)
 // |----------------------------------------------------------------------------|
 bool RectangleClass::CheckCollision(RectangleClass* collider)
 {
-	return !(	((m_position.y+m_dimmensions.y) < collider->m_position.y) || 
-				((m_position.x+m_dimmensions.x) < collider->m_position.x) || 
-				(m_position.y > (collider->m_position.y+collider->m_dimmensions.y)) || 
-				(m_position.x > (collider->m_position.x+collider->m_dimmensions.x)) 
+	return !(	((m_position.y+m_dimmensions.y+m_velocity.y) < collider->m_position.y+collider->m_velocity.y) || 
+				((m_position.x+m_dimmensions.x+m_velocity.x) < collider->m_position.x+collider->m_velocity.x) || 
+				(m_position.y+m_velocity.y > (collider->m_position.y+collider->m_dimmensions.y+collider->m_velocity.y)) || 
+				(m_position.x+m_velocity.x > (collider->m_position.x+collider->m_dimmensions.x+collider->m_velocity.x)) 
 			);
 }
 
