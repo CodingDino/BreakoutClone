@@ -32,7 +32,7 @@ LevelScreen::LevelScreen() :
 	m_levelNumber(0),
 	m_dialogue(false),
 	m_dialogueBackground(0),
-	m_lives(0),
+	m_lives(3),
 	m_gameOver(false),
 	m_gameOverDialogue(0)
 {
@@ -189,6 +189,15 @@ LevelScreen::~LevelScreen() {
 // The logic function, which will be called by the main game loop.
 int LevelScreen::logic() {
 	debug ("LevelScreen: logic() called.", 10);
+    
+	// Check if it's game over
+	if (m_gameOver)
+	{
+		// Check for click
+		if((InputClass::GetInstance())->IsMouseButtonPressed(0))
+			done = true;
+		return error;
+	}
 
 	// Check if it's time to load the next level
 	if(m_activeBlocks <= 0)
@@ -259,7 +268,7 @@ int LevelScreen::logic() {
 	// Check if we've used up all our lives
 	if (m_lives <= 0)
 	{
-		done = true;
+		m_gameOver = true;
 	}
 
 	return error;
@@ -275,6 +284,15 @@ int LevelScreen::draw() {
 	// Draw Background
 	if (m_background)
 		GraphicsClass::GetInstance()->BitmapRender(*m_background, (SCREEN_WIDTH-min(SCREEN_WIDTH,1024*SCREEN_HEIGHT/768))/2, 0);
+    
+	// Check if it's game over
+	if (m_gameOver)
+	{
+		// Display level dialogue
+		GraphicsClass::GetInstance()->BitmapRender(*m_gameOverDialogue, (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
+
+		return error;
+	}
 
 	if(m_dialogue)
 	{
