@@ -114,8 +114,9 @@ bool RectangleClass::Collision(RectangleClass* collider)
 	if(CheckCollision(collider))
 	{
 		debug("COLLISION!");
-		if(collider->HandleCollision(this)) return true;
-		if(HandleCollision(collider)) return true;
+		collider->HandleCollision(this);
+		HandleCollision(collider);
+		return true;
 	}
 
 	return false;

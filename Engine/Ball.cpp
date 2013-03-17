@@ -67,14 +67,14 @@ int Ball::logic() {
 	if (m_attached && m_player && (InputClass::GetInstance())->IsMouseButtonDown(0))
 	{
 		m_attached = false;
-		m_velocity.y = (float)-1*m_speed*SCALE_Y;
+		m_velocity.y = (float)-1*m_speed;
 	}
 
 	// Move with paddle if attached
 	if (m_attached && m_player)
 	{
 		m_position.x = (m_player->GetPosition()).x+((m_player->GetDimmensions()).x-m_dimmensions.x)/2;
-		m_position.y = (m_player->GetPosition()).y-m_dimmensions.y;
+		m_position.y = (m_player->GetPosition()).y-m_dimmensions.y-1;
 	}
 	else // Move based on velocity
 	{
@@ -94,11 +94,39 @@ bool Ball::HandleCollision(RectangleClass* collider)
 	Coord collider_dimmensions = collider->GetDimmensions();
 
 	// Determine side of collision and reverse proper direction
-	//if ( (m_position.y < (collider_position.y+collider_dimmensions.y) )
-	//		||( (m_position.y+m_dimmensions.y) > collider_position.y ) )
+	/*if ( (m_position.y > (collider_position.y+collider_dimmensions.y) )
+			|| ( (m_position.y+m_dimmensions.y) < collider_position.y ) )
+		m_velocity.x = -1 * m_velocity.x;
+	else
+		m_velocity.y = -1 * m_velocity.y;*/
+
+	if ( (m_position.y+m_dimmensions.y) > (collider_position.y+collider_dimmensions.y) )
 		m_velocity.y = -1 * m_velocity.y;
-	//else
-	//	m_velocity.x = -1 * m_velocity.x;
+	else if ( (m_position.y) < (collider_position.y) )
+		m_velocity.y = -1 * m_velocity.y;
+	else if ( (m_position.x+m_dimmensions.x) > (collider_position.x+collider_dimmensions.x) )
+		m_velocity.x = -1 * m_velocity.x;
+	else if ( (m_position.x) < (collider_position.x) )
+		m_velocity.x = -1 * m_velocity.x;
+
+	return true;
+}
+
+// |----------------------------------------------------------------------------|
+// |						     PlayerCollide()								|
+// |----------------------------------------------------------------------------|
+bool Ball::PlayerCollide(Player* collider)
+{
+	debug("PLAYER COLLISION!");
+
+	Coord collider_position = collider->GetPosition();
+	Coord collider_dimmensions = collider->GetDimmensions();
+
+	float direction = (m_position.x+m_dimmensions.x/2)-(collider_position.x+collider_dimmensions.x/2);
+	direction /= collider_dimmensions.x;
+
+	m_velocity.x = direction*m_speed;
+	m_velocity.y = -1*sqrt(m_speed*m_speed - m_velocity.x*m_velocity.x);
 
 	return true;
 }

@@ -37,10 +37,12 @@ public:
 
 	// Getter/Setter
 	void SetPlayer(Player* player) { m_player = player; }
+
+	bool virtual HandleCollision(RectangleClass* collider);
+	bool virtual PlayerCollide(Player* collider);
 	
 protected:
 	
-	bool virtual HandleCollision(RectangleClass* collider);
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 	double m_speed;

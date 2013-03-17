@@ -45,6 +45,8 @@ public:
 	int virtual onKeyUp(int button);
 
 	bool virtual Collision(RectangleClass* collider);
+	bool virtual CheckCollision(RectangleClass* collider);
+	bool virtual HandleCollision(RectangleClass* collider);
 	// Checks for and handles collision
 
 	// Getter functions
@@ -56,9 +58,6 @@ public:
 	void virtual SetDimmensions(Coord new_dimmensions) {m_dimmensions = new_dimmensions;}
 	
 protected:
-
-	bool virtual CheckCollision(RectangleClass* collider);
-	bool virtual HandleCollision(RectangleClass* collider);
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 

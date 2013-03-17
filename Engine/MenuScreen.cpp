@@ -23,7 +23,9 @@ MenuScreen::MenuScreen() :
 	m_backgroundY(0),
 	m_player(0),
 	m_ball(0),
-	m_top(0)
+	m_top(0),
+	m_left(0),
+	m_right(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -92,6 +94,16 @@ MenuScreen::MenuScreen() :
 	m_top->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
 	m_top->SetPosition(Coord(0,0));
 
+	m_left = new RectangleClass();
+	m_left->Initialize();
+	m_left->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
+	m_left->SetPosition(Coord((SCREEN_WIDTH-1024*SCALE_X)/2,0));
+
+	m_right = new RectangleClass();
+	m_right->Initialize();
+	m_right->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
+	m_right->SetPosition(Coord(SCREEN_WIDTH-(SCREEN_WIDTH-1024*SCALE_X)/2-35*SCALE_X,0));
+
 	debug ("MenuScreen: object instantiated.");
 }
 
@@ -107,6 +119,9 @@ MenuScreen::~MenuScreen() {
 	// Release objects
 	delete m_player;
 	delete m_ball;
+	delete m_top;
+	delete m_left;
+	delete m_right;
 
 	debug ("MenuScreen: object destroyed.");
 }
@@ -135,6 +150,10 @@ int MenuScreen::logic() {
 
 	// Handle collisions
 	m_ball->Collision(m_top);
+	m_ball->Collision(m_left);
+	m_ball->Collision(m_right);
+	if(m_ball->Collision(m_player))
+		m_ball->PlayerCollide(m_player);
 
 	return error;
 }

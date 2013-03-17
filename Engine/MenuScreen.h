@@ -66,6 +66,8 @@ protected:
 	Player* m_player;
 	Ball* m_ball;
 	RectangleClass* m_top;
+	RectangleClass* m_left;
+	RectangleClass* m_right;
 
 	//ScreenChangeButton button_exit;
 	//ScreenChangeButton button_zen;
