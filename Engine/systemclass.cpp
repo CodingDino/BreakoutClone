@@ -298,11 +298,9 @@ bool SystemClass::Frame()
 	m_Cpu->Frame();
 
 	// Run game logic
-	result = m_Graphics->BeginRender();
-	result = m_game->Frame();
-	result = m_Graphics->EndRender();
-
-	// Render graphics
+	result = result && m_Graphics->BeginRender();
+	result = result && m_game->Frame();
+	result = result && m_Graphics->EndRender();
 
 	if(!result)
 	{

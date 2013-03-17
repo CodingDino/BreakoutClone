@@ -2,48 +2,39 @@
 // Developed by Bounder Studios
 // Copyright Sarah Herzog, 2011, all rights reserved.
 //
-// Block
-//		Block which collides with ball and knocks it away, getting hurt or 
-//		destroyed in the process.
+// Button
+//		Defines the screen change button's location, text, image, and function. 
 #pragma once
 
 // |----------------------------------------------------------------------------|
 // |								Includes									|
 // |----------------------------------------------------------------------------|
 #include "Util.h"
-#include "Rectangle.h"
+#include "Block.h"
 #include "Screen.h"
 
 // |----------------------------------------------------------------------------|
-// |					      Class Definition: Ball							|
+// |						  Class Definition: Button							|
 // |----------------------------------------------------------------------------|
-class Block : public RectangleClass {
+class Button : public Block {
 	
 public:
 
-	Block ();
+	Button ();
 	// Constructor
 
-	~Block ();
+	~Button ();
 	// De-constructor
 
-	bool virtual Initialize();
+	bool virtual Initialize(Screen* parent, SCREEN nextScreen, WCHAR* textureFilename);
 	// Sets up the rectangle
-
-	int virtual logic();
-	// Performs logic functions for the object
-
+	
 	// Collision
 	bool virtual HandleCollision(RectangleClass* collider);
-
-	// TODO: Function to check if dead
 	
 protected:
 	
-	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-	int m_hp;
-
-	// Block sprites
-	BitmapClass* m_normal;	// Graphic
+	Screen* m_parent;		// Pointer to the parent screen
+	SCREEN m_nextScreen;	// Screen to change to
 };

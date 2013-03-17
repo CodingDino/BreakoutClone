@@ -2,77 +2,72 @@
 // Developed by Bounder Studios
 // Copyright Sarah Herzog, 2011, all rights reserved.
 //
-// Block
-//		Block which collides with ball and knocks it away, getting hurt or 
-//		destroyed in the process.
+// Button
+//		Defines the screen change button's location, text, image, and function. 
 
 
 // |----------------------------------------------------------------------------|
 // |								Includes									|
 // |----------------------------------------------------------------------------|
-#include "Block.h"
-#include <cmath>
+#include "Button.h"
 
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-Block::Block()
+Button::Button() 
 {
-	debug ("Block: object instantiated.");
+	
+
+	debug ("Button: object instantiated.");
 }
 
 // |----------------------------------------------------------------------------|
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
-Block::~Block() {
-	debug ("Block: instance destroyed.");
+Button::~Button() {
+	debug ("ScreenChangeButton: instance destroyed.");
 }
-
 
 // |----------------------------------------------------------------------------|
 // |							   Initialize									|
 // |----------------------------------------------------------------------------|
-bool Block::Initialize() {
-	
-	// Hit Points
-	m_hp = 1;
+bool Button::Initialize(Screen* parent, SCREEN nextScreen, WCHAR* textureFilename) {
+
+	// Record parent
+	m_parent = parent;
 
 	// Set dimmensions
-	m_dimmensions.x = 50*SCALE_X;
-	m_dimmensions.y = 20*SCALE_Y;
+	m_dimmensions.x = 178*SCALE_X;
+	m_dimmensions.y = 76*SCALE_Y;
+
+	// Set click to screen
+	m_nextScreen = nextScreen;
 	
 	// Loading graphics into Image objects
 	m_graphic = new BitmapClass();
-	m_graphic->Initialize((D3DClass::GetInstance())->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/yellow.png", m_dimmensions.x, m_dimmensions.y);
-
-	// Set location
-	m_position.x = (SCREEN_WIDTH - m_dimmensions.x)/2;
-	m_position.y = SCREEN_HEIGHT-SCREEN_HEIGHT*0.3;
-
-	debug ("Block: object initialized.");
+	m_graphic->Initialize((D3DClass::GetInstance())->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, textureFilename, m_dimmensions.x, m_dimmensions.y);
+	
+	debug ("Button: object initialized.");
 
 	return true;
-}
-
-// |----------------------------------------------------------------------------|
-// |							    logic()										|
-// |----------------------------------------------------------------------------|
-int Block::logic() {
-	debug ("Block: logic() called.", 10);
-
-	return m_error;
 }
 
 
 // |----------------------------------------------------------------------------|
 // |						    HandleCollision()								|
 // |----------------------------------------------------------------------------|
-bool Block::HandleCollision(RectangleClass* collider)
+bool Button::HandleCollision(RectangleClass* collider)
 {
 	
 	if (m_hp > 0 ) --m_hp;
 
 	// TODO: Increment score if dead;
+	if (m_hp <= 0)
+	{
+		// Change the next screen to this button's target screen
+		m_parent->setNextScreen(m_nextScreen);
+		m_parent->setDone(true);
+	}
 
 	return true;
 }

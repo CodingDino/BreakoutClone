@@ -107,6 +107,9 @@
     <ClCompile Include="Block.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util.h">
@@ -182,6 +185,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

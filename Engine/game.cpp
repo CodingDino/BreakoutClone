@@ -86,7 +86,7 @@ int Game::Frame() {
 		if (current_screen->getNextScreen() == QUIT) {
 			debug("Game: quitting");
 			// If so, quit.
-			return error;
+			return false;
 		}
 
 		// If the screen is NOT telling the game to quit, load the next screen
@@ -100,5 +100,6 @@ int Game::Frame() {
 
 	}
 
-	return (!error);
+	if(error) return false;
+	return true;
 }

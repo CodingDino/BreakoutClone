@@ -27,6 +27,9 @@ public:
 	~Player ();
 	// De-constructor
 
+	bool virtual Initialize();
+	// Sets up the rectangle
+
 	int virtual logic();
 	// Performs logic functions for the object
 	

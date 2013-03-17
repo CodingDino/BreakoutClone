@@ -18,6 +18,15 @@
 // |----------------------------------------------------------------------------|
 Ball::Ball()
 {
+
+	debug ("Ball: object instantiated.");
+}
+
+// |----------------------------------------------------------------------------|
+// |							   Initialize									|
+// |----------------------------------------------------------------------------|
+bool Ball::Initialize() {
+	
 	// Set player settings
 	m_player = NULL;
 	m_attached = true;
@@ -46,7 +55,9 @@ Ball::Ball()
 	// Set speed
 	m_speed = 7;
 
-	debug ("Ball: object instantiated.");
+	debug ("Ball: object initialized.");
+
+	return true;
 }
 
 // |----------------------------------------------------------------------------|

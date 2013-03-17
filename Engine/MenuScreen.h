@@ -16,6 +16,7 @@
 #include "Ball.h"
 #include "Rectangle.h"
 #include "Block.h"
+#include "Button.h"
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: MenuScreen						|
@@ -60,9 +61,6 @@ protected:
 	BitmapClass* m_background;
 	int m_backgroundX, m_backgroundY;
 
-	// Sound
-	//Sound* music;
-
 	// Objects
 	Player* m_player;
 	Ball* m_ball;
@@ -74,14 +72,6 @@ protected:
 	// Buttons
 	Block* m_start;
 	Block* m_scores;
-	Block* m_quit;
-
-	//ScreenChangeButton button_exit;
-	//ScreenChangeButton button_zen;
-	//ScreenChangeButton button_adventure;
-	//ScreenChangeButton button_time;
-	//ScreenChangeButton button_survival;
-	//ScreenChangeButton button_score;
-	//ScreenChangeButton button_options;
+	Button* m_quit;
 
 };

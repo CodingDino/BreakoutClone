@@ -29,7 +29,7 @@ public:
 	~RectangleClass();
 	// Destructor
 
-	bool Initialize();
+	bool virtual Initialize();
 	// Sets up the rectangle
 
 	int virtual draw();

@@ -115,15 +115,15 @@ MenuScreen::MenuScreen() :
 
 	m_start = new Block();
 	m_start->Initialize();
-	m_start->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_start->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X-300*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
 	m_scores = new Block();
 	m_scores->Initialize();
-	m_scores->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3-20*SCALE_Y-3));
+	m_scores->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
-	m_quit = new Block();
-	m_quit->Initialize();
-	m_quit->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2-50*SCALE_X-3,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_quit = new Button();
+	m_quit->Initialize(this, QUIT, L"../Engine/data/button_quit.png");
+	m_quit->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2+178*SCALE_X*1.5,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
 	debug ("MenuScreen: object instantiated.");
 }

@@ -17,6 +17,15 @@
 // |----------------------------------------------------------------------------|
 Player::Player()
 {
+
+	debug ("Player: object instantiated.");
+}
+
+// |----------------------------------------------------------------------------|
+// |							   Initialize									|
+// |----------------------------------------------------------------------------|
+bool Player::Initialize() {
+
 	// Set dimmensions
 	m_dimmensions.x = 101*SCALE_X;
 	m_dimmensions.y = 20*SCALE_Y;
@@ -29,7 +38,9 @@ Player::Player()
 	m_position.x = (SCREEN_WIDTH - m_dimmensions.x)/2;
 	m_position.y = SCREEN_HEIGHT-SCREEN_HEIGHT*0.1;
 
-	debug ("Player: object instantiated.");
+	debug ("Player: object initialized.");
+
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
