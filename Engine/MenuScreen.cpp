@@ -113,13 +113,13 @@ MenuScreen::MenuScreen() :
 	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
 	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
 
-	m_start = new Block();
-	m_start->Initialize();
-	m_start->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X-300*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_start = new Button();
+	m_start->Initialize(this, LEVEL, L"../Engine/data/button_start.png");
+	m_start->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2-178*SCALE_X*1.5,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
-	m_scores = new Block();
-	m_scores->Initialize();
-	m_scores->SetPosition(Coord((SCREEN_WIDTH - 50*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_scores = new Button();
+	m_scores->Initialize(this, SCORES, L"../Engine/data/button_score.png");
+	m_scores->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
 
 	m_quit = new Button();
 	m_quit->Initialize(this, QUIT, L"../Engine/data/button_quit.png");

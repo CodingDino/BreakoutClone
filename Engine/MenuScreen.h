@@ -70,8 +70,8 @@ protected:
 	RectangleClass* m_bottom;
 
 	// Buttons
-	Block* m_start;
-	Block* m_scores;
+	Button* m_start;
+	Button* m_scores;
 	Button* m_quit;
 
 };
