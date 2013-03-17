@@ -283,7 +283,7 @@ bool GraphicsClass::EndRender()
 // |----------------------------------------------------------------------------|
 bool GraphicsClass::BitmapRender(BitmapClass& to_render, int x, int y)
 {
-	debug ("GraphicsClass: Rendering Bitmap");
+	//debug ("GraphicsClass: Rendering Bitmap");
 
 	bool result;
 

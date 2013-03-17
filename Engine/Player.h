@@ -17,7 +17,7 @@
 // |----------------------------------------------------------------------------|
 // |					      Class Definition: Player							|
 // |----------------------------------------------------------------------------|
-class Player : public Rectangle {
+class Player : public RectangleClass {
 	
 public:
 

@@ -14,6 +14,7 @@
 #include "Util.h"
 #include "Player.h"
 #include "Ball.h"
+#include "Rectangle.h"
 
 // |----------------------------------------------------------------------------|
 // |						  Class Definition: MenuScreen						|
@@ -64,6 +65,7 @@ protected:
 	// Objects
 	Player* m_player;
 	Ball* m_ball;
+	RectangleClass* m_top;
 
 	//ScreenChangeButton button_exit;
 	//ScreenChangeButton button_zen;

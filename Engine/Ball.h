@@ -19,7 +19,7 @@
 // |----------------------------------------------------------------------------|
 // |					      Class Definition: Ball							|
 // |----------------------------------------------------------------------------|
-class Ball : public Rectangle {
+class Ball : public RectangleClass {
 	
 public:
 
@@ -33,11 +33,14 @@ public:
 	// Performs logic functions for the object
 
 	bool isAttached();
+	// Checks if ball is attached to the paddle
 
 	// Getter/Setter
 	void SetPlayer(Player* player) { m_player = player; }
 	
 protected:
+	
+	bool virtual HandleCollision(RectangleClass* collider);
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 	double m_speed;

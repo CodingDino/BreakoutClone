@@ -19,14 +19,14 @@
 // |----------------------------------------------------------------------------|
 // |						Class Definition: Rectangle							|
 // |----------------------------------------------------------------------------|
-class Rectangle {
+class RectangleClass {
 
 public:
 
-	Rectangle ();
+	RectangleClass ();
 	// Constructor
 
-	~Rectangle();
+	~RectangleClass();
 	// Destructor
 
 	bool Initialize();
@@ -44,14 +44,21 @@ public:
 	int virtual onKeyDown(int button);
 	int virtual onKeyUp(int button);
 
+	bool virtual Collision(RectangleClass* collider);
+	// Checks for and handles collision
+
 	// Getter functions
 	Coord GetPosition() {return m_position; }
 	Coord GetDimmensions() {return m_dimmensions; }
 
 	// Setter functions
-	void virtual setPosition(Coord new_position);
+	void virtual SetPosition(Coord new_position) {m_position = new_position;}
+	void virtual SetDimmensions(Coord new_dimmensions) {m_dimmensions = new_dimmensions;}
 	
 protected:
+
+	bool virtual CheckCollision(RectangleClass* collider);
+	bool virtual HandleCollision(RectangleClass* collider);
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 

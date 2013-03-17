@@ -22,7 +22,8 @@ MenuScreen::MenuScreen() :
 	m_backgroundX(0),
 	m_backgroundY(0),
 	m_player(0),
-	m_ball(0)
+	m_ball(0),
+	m_top(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -78,13 +79,18 @@ MenuScreen::MenuScreen() :
 	//button_score.setEnabled(false);
 	//button_options.setEnabled(false);
 
-	// Player Object
+	// Objects
 	m_player = new Player();
 	m_player->Initialize();
 
 	m_ball = new Ball();
 	m_ball->Initialize();
 	m_ball->SetPlayer(m_player);
+
+	m_top = new RectangleClass();
+	m_top->Initialize();
+	m_top->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_top->SetPosition(Coord(0,0));
 
 	debug ("MenuScreen: object instantiated.");
 }
@@ -127,6 +133,8 @@ int MenuScreen::logic() {
 	if (m_ball)
 		m_ball->logic();
 
+	// Handle collisions
+	m_ball->Collision(m_top);
 
 	return error;
 }

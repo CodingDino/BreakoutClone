@@ -68,7 +68,7 @@ public:
 
 	// Gets mouse position
 	void GetMouseLocation(int& mouseX, int& mouseY);
-	bool IsMouseButtonDown(int button) {if (button >= 0 && button < 4) return m_mouseState.rgbButtons[button]; else return false;}
+	bool IsMouseButtonDown(int button) {if (button >= 0 && button < 4) return (bool)m_mouseState.rgbButtons[button]; else return false;}
 
 private:
 

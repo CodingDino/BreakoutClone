@@ -52,6 +52,7 @@ Coord::Coord(float new_x, float new_y) :
 // |----------------------------------------------------------------------------|
 Coord Coord::operator= (const Coord& other)
 {
+	x = other.x; y = other.y;
 	return Coord(other);
 }
 Coord Coord::operator= (const float uniform_value)
