@@ -29,7 +29,7 @@ LevelScreen::LevelScreen() :
 	m_level3(0),
 	m_activeBlocks(0),
 	m_levelNumber(0),
-	m_dialogue(true),
+	m_dialogue(false),
 	m_dialogueBackground(0)
 {
 
@@ -86,7 +86,6 @@ LevelScreen::LevelScreen() :
 	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
 
 	// Blocks
-	// TODO: Blocks from file (probably should go in OnLoad instead)
 	m_numBlocks = 17*21;
 	m_blocks = new Block*[m_numBlocks];
 	for (int i=0; i<m_numBlocks; ++i)
@@ -138,6 +137,9 @@ LevelScreen::~LevelScreen() {
 			delete m_blocks[i];
 	}
 	delete m_blocks; m_blocks = 0;
+	delete[] m_level1; m_level1 = 0;
+	delete[] m_level2; m_level2 = 0;
+	delete[] m_level3; m_level3 = 0;
 	m_numBlocks = 0;
 	
 
@@ -261,14 +263,9 @@ int LevelScreen::onLoad() {
 	// Screen is not done
 	done = false;
 
-	// Load the first level from file
-	//loadNext();
-
 	// Set up the ball
 	m_ball->Respawn();
 	m_ball->ResetSpeed();
-	
-	//if (music) music->loop();
 
 	return error;
 }
@@ -292,7 +289,6 @@ int LevelScreen::onExit() {
 void LevelScreen::loadFromFile(const char* fileName, int* levelInfo)
 {
 	debug ("LevelScreen: loadFromFile called.");
-	int block (0);
 	int i (0);
 	
 	ifstream inFile;  // object for reading from a file
@@ -315,7 +311,7 @@ void LevelScreen::loadFromFile(const char* fileName, int* levelInfo)
 }
 
 // |----------------------------------------------------------------------------|
-// |							  loadFromFile()								|
+// |							     loadNext()									|
 // |----------------------------------------------------------------------------|
 void LevelScreen::loadNext()
 {
