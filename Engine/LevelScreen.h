@@ -46,7 +46,7 @@ public:
 	int virtual onExit();
 	// Called when switching to a different screen
 
-	void loadFromFile(const char* fileName);
+	void loadFromFile(const char* fileName, int* levelInfo);
 	// Loads a level from file
 
 	void loadNext();
@@ -71,6 +71,9 @@ protected:
 	int m_numBlocks;
 	int m_activeBlocks;
 	Block** m_blocks;
+	int* m_level1;
+	int* m_level2;
+	int* m_level3;
 
 	// Level info
 	bool m_dialogue;

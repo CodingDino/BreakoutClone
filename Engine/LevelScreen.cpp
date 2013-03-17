@@ -24,8 +24,11 @@ LevelScreen::LevelScreen() :
 	m_right(0),
 	m_bottom(0),
 	m_blocks(0),
+	m_level1(0),
+	m_level2(0),
+	m_level3(0),
 	m_activeBlocks(0),
-	m_levelNumber(1),
+	m_levelNumber(0),
 	m_dialogue(true),
 	m_dialogueBackground(0)
 {
@@ -90,6 +93,26 @@ LevelScreen::LevelScreen() :
 	{
 		m_blocks[i] = 0;
 	}
+	m_level1 = new int[m_numBlocks];
+	for (int i=0; i<m_numBlocks; ++i)
+	{
+		m_level1[i] = 0;
+	}
+	m_level2 = new int[m_numBlocks];
+	for (int i=0; i<m_numBlocks; ++i)
+	{
+		m_level2[i] = 0;
+	}
+	m_level3 = new int[m_numBlocks];
+	for (int i=0; i<m_numBlocks; ++i)
+	{
+		m_level3[i] = 0;
+	}
+
+	// Load level info from file
+	loadFromFile("../Engine/data/level_1.txt", m_level1);
+	loadFromFile("../Engine/data/level_2.txt", m_level2);
+	loadFromFile("../Engine/data/level_3.txt", m_level3);
 
 	debug ("LevelScreen: object instantiated.");
 }
@@ -131,6 +154,13 @@ int LevelScreen::logic() {
 	// Check if it's time to load the next level
 	if(m_activeBlocks <= 0)
 	{
+		// Make sure the dialogue is displayed
+		if (!m_dialogue)
+		{
+			m_dialogue = true;
+			return error;
+		}
+
 		// Load next level
 		loadNext();
 
@@ -139,10 +169,9 @@ int LevelScreen::logic() {
 
 		// Reset ball location
 		m_ball->Respawn();
-
-		return error;
 	}
-	
+
+	// Once the new level is loaded, check for mouse click to close dialogue
 	if (m_dialogue)
 	{
 		// Check for click
@@ -182,10 +211,6 @@ int LevelScreen::logic() {
 				// TODO: Increment score
 			}
 		}
-	}
-	if(m_activeBlocks <= 0)
-	{
-		m_dialogue = true;
 	}
 
 	return error;
@@ -237,7 +262,7 @@ int LevelScreen::onLoad() {
 	done = false;
 
 	// Load the first level from file
-	loadFromFile("../Engine/data/level_test.txt");
+	//loadNext();
 
 	// Set up the ball
 	m_ball->Respawn();
@@ -264,15 +289,11 @@ int LevelScreen::onExit() {
 // |----------------------------------------------------------------------------|
 // |							  loadFromFile()								|
 // |----------------------------------------------------------------------------|
-void LevelScreen::loadFromFile(const char* fileName)
+void LevelScreen::loadFromFile(const char* fileName, int* levelInfo)
 {
 	debug ("LevelScreen: loadFromFile called.");
 	int block (0);
-	int i (0), x(0), y(0);
-	const int PADDING(5);
-	const int XUNIT(50*SCALE_X	+ PADDING*SCALE_X), YUNIT(20*SCALE_Y	+ PADDING*SCALE_Y);
-	const int XSTART( (SCREEN_WIDTH - 50*SCALE_X)/2		- 8  * XUNIT );
-	const int YSTART( (SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)	- 20 * YUNIT );
+	int i (0);
 	
 	ifstream inFile;  // object for reading from a file
 	inFile.open(fileName, ios::in);
@@ -284,19 +305,7 @@ void LevelScreen::loadFromFile(const char* fileName)
 	while (!inFile.eof()) 
 	{
 		// read in this block
-		inFile >> block;
-
-		// Set up the block if there is one
-		if(block)
-		{
-			m_blocks[i] = new Block();
-			m_blocks[i]->Initialize();
-			x = XSTART+(i%17)*XUNIT;
-			y = YSTART+(floor(((float)i)/17))*YUNIT;
-			m_blocks[i]->SetPosition(Coord(x,y));
-			m_blocks[i]->SetType((BLOCK)(block-1));
-			++m_activeBlocks;
-		}
+		inFile >> levelInfo[i];
 
 		// increment
 		++i;
@@ -310,15 +319,39 @@ void LevelScreen::loadFromFile(const char* fileName)
 // |----------------------------------------------------------------------------|
 void LevelScreen::loadNext()
 {
+	// Increment level counter
 	++m_levelNumber;
 
+	// Variables
 	int index = (m_levelNumber-1)%3;
+	int* levelInfo;
+	int x(0), y(0);
+	const int PADDING(5);
+	const int XUNIT(50*SCALE_X	+ PADDING*SCALE_X), YUNIT(20*SCALE_Y	+ PADDING*SCALE_Y);
+	const int XSTART( (SCREEN_WIDTH - 50*SCALE_X)/2		- 8  * XUNIT );
+	const int YSTART( (SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)	- 20 * YUNIT );
 
+	// Determine which info contains this level
 	if (index == 0)
-		loadFromFile("../Engine/data/level_1.txt");
+		levelInfo=m_level1;
 	else if (index == 1)
-		loadFromFile("../Engine/data/level_2.txt");
+		levelInfo=m_level2;
 	else if (index == 2)
-		loadFromFile("../Engine/data/level_3.txt");
+		levelInfo=m_level3;
 
+	// Set up the actual blocks based on this info
+	for (int i=0; i<m_numBlocks;++i)
+	{
+		// Set up the block if there is one
+		if(levelInfo[i])
+		{
+			m_blocks[i] = new Block();
+			m_blocks[i]->Initialize();
+			x = XSTART+(i%17)*XUNIT;
+			y = YSTART+(floor(((float)i)/17))*YUNIT;
+			m_blocks[i]->SetPosition(Coord(x,y));
+			m_blocks[i]->SetType((BLOCK)(levelInfo[i]-1));
+			++m_activeBlocks;
+		}
+	}
 }
