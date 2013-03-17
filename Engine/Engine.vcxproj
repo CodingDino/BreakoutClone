@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="BitmapClass.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="cameraclass.cpp" />
     <ClCompile Include="Coord.cpp" />
     <ClCompile Include="CPUClass.cpp" />
@@ -108,6 +109,7 @@
   <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="BitmapClass.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="cameraclass.h" />
     <ClInclude Include="Coord.h" />
     <ClInclude Include="CPUClass.h" />

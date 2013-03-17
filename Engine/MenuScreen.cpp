@@ -25,7 +25,8 @@ MenuScreen::MenuScreen() :
 	m_ball(0),
 	m_top(0),
 	m_left(0),
-	m_right(0)
+	m_right(0),
+	m_start(0)
 	//music (NULL),
 	//button_exit(assets, this, QUIT, "QUIT"),
 	//button_zen(assets, this, ZEN, "ZEN MODE"),
@@ -104,6 +105,10 @@ MenuScreen::MenuScreen() :
 	m_right->SetDimmensions(Coord(35*SCALE_X,768*SCALE_Y));
 	m_right->SetPosition(Coord(SCREEN_WIDTH-(SCREEN_WIDTH-1024*SCALE_X)/2-35*SCALE_X,0));
 
+	m_start = new Block();
+	m_start->Initialize();
+	m_start->SetPosition(Coord((SCREEN_WIDTH - 20*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+
 	debug ("MenuScreen: object instantiated.");
 }
 
@@ -122,6 +127,7 @@ MenuScreen::~MenuScreen() {
 	delete m_top;
 	delete m_left;
 	delete m_right;
+	delete m_start;
 
 	debug ("MenuScreen: object destroyed.");
 }
@@ -152,6 +158,7 @@ int MenuScreen::logic() {
 	m_ball->Collision(m_top);
 	m_ball->Collision(m_left);
 	m_ball->Collision(m_right);
+	m_ball->Collision(m_start);
 	if(m_ball->Collision(m_player))
 		m_ball->PlayerCollide(m_player);
 
@@ -183,6 +190,8 @@ int MenuScreen::draw() {
 		m_player->draw();
 	if (m_ball)
 		m_ball->draw();
+	if (m_start)
+		m_start->draw();
 
 	return error;
 }

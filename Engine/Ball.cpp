@@ -94,12 +94,6 @@ bool Ball::HandleCollision(RectangleClass* collider)
 	Coord collider_dimmensions = collider->GetDimmensions();
 
 	// Determine side of collision and reverse proper direction
-	/*if ( (m_position.y > (collider_position.y+collider_dimmensions.y) )
-			|| ( (m_position.y+m_dimmensions.y) < collider_position.y ) )
-		m_velocity.x = -1 * m_velocity.x;
-	else
-		m_velocity.y = -1 * m_velocity.y;*/
-
 	if ( (m_position.y+m_dimmensions.y) > (collider_position.y+collider_dimmensions.y) )
 		m_velocity.y = -1 * m_velocity.y;
 	else if ( (m_position.y) < (collider_position.y) )
