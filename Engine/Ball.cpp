@@ -108,7 +108,7 @@ bool Ball::HandleCollision(RectangleClass* collider)
 		m_velocity.x = -1 * m_velocity.x;
 	else if (me_right < yu_left && me_right+m_velocity.x >= yu_left)
 		m_velocity.x = -1 * m_velocity.x;
-	else 
+	else  // Sometimes phases through, add some extra checking to make sure all cases are covered
 	{
 		if ( me_bottom+m_velocity.y > yu_bottom )
 			m_velocity.y = -1 * m_velocity.y;
@@ -118,7 +118,7 @@ bool Ball::HandleCollision(RectangleClass* collider)
 			m_velocity.x = -1 * m_velocity.x;
 		else if ( me_left+m_velocity.x < yu_left )
 			m_velocity.x = -1 * m_velocity.x;
-		else 
+		else  // No matter what, if there was a collision, we're changing directions.
 		{
 			m_velocity.y = -1 * m_velocity.y;
 			m_velocity.x = -1 * m_velocity.x;
