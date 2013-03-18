@@ -10,7 +10,7 @@
 // |----------------------------------------------------------------------------|
 // |								Constants									|
 // |----------------------------------------------------------------------------|
-const int DEBUG_MODE = 1;
+const int DEBUG_MODE = 0;
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 extern float SCALE_X;
