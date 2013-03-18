@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Button
 //		Defines the screen change button's location, text, image, and function. 
@@ -11,22 +11,33 @@
 // |----------------------------------------------------------------------------|
 #include "Button.h"
 
+
 // |----------------------------------------------------------------------------|
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
-Button::Button() 
+Button::Button() :
+    m_parent(NULL),
+    m_nextScreen(QUIT)
 {
-	
-
 	debug ("Button: object instantiated.");
 }
+
 
 // |----------------------------------------------------------------------------|
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
 Button::~Button() {
-	debug ("ScreenChangeButton: instance destroyed.");
+	debug ("Button: instance destroyed.");
 }
+   
+
+// |----------------------------------------------------------------------------|
+// |							  Copy Constructor								|
+// |----------------------------------------------------------------------------|
+Button::Button(const Button&) {
+	debug ("Button: object copied.");
+}
+
 
 // |----------------------------------------------------------------------------|
 // |							   Initialize									|
@@ -45,10 +56,23 @@ bool Button::Initialize(Screen* parent, SCREEN nextScreen, WCHAR* textureFilenam
 	
 	// Loading graphics into Image objects
 	m_graphic = new BitmapClass();
-	m_graphic->Initialize((D3DClass::GetInstance())->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, textureFilename, m_dimmensions.x, m_dimmensions.y);
+	m_graphic->Initialize((D3DClass::GetInstance())->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, textureFilename, (int)m_dimmensions.x, (int)m_dimmensions.y);
 	
 	debug ("Button: object initialized.");
 
+	return true;
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							    Shutdown									|
+// |----------------------------------------------------------------------------|
+bool Button::Shutdown() {
+
+    // Shutdown parent data
+    RectangleClass::Shutdown();
+
+	debug ("Button: object shutdown.");
 	return true;
 }
 
@@ -61,12 +85,11 @@ bool Button::HandleCollision(RectangleClass* collider)
 	
 	if (m_hp > 0 ) --m_hp;
 
-	// TODO: Increment score if dead;
 	if (m_hp <= 0)
 	{
 		// Change the next screen to this button's target screen
-		m_parent->setNextScreen(m_nextScreen);
-		m_parent->setDone(true);
+		m_parent->SetNextScreen(m_nextScreen);
+		m_parent->SetDone(true);
 	}
 
 	return true;

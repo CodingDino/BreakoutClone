@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Ball
 //		Ball which can be fired by the player, and which bounces and hits 
@@ -17,6 +17,9 @@
 // |							   Constructor									|
 // |----------------------------------------------------------------------------|
 Ball::Ball() :
+    m_speed(START_SPEED),
+    m_attached(true),
+    m_player(0),
 	m_spriteIndex(0),
 	m_green(0),
 	m_blue(0),
@@ -24,9 +27,24 @@ Ball::Ball() :
 	m_orange(0),
 	m_yellow(0)
 {
-
 	debug ("Ball: object instantiated.");
 }
+
+// |----------------------------------------------------------------------------|
+// |							  Copy Constructor								|
+// |----------------------------------------------------------------------------|
+Ball::Ball(const Ball&) {
+	debug ("Ball: object copied.");
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							   Destructor									|
+// |----------------------------------------------------------------------------|
+Ball::~Ball() {
+	debug ("Ball: instance destroyed.");
+}
+
 
 // |----------------------------------------------------------------------------|
 // |							   Initialize									|
@@ -55,8 +73,8 @@ bool Ball::Initialize() {
 	m_graphic = m_green;
 
 	// Set location
-	m_position.x = (float)(SCREEN_WIDTH -  (float)m_dimmensions.x)/2;
-	m_position.y = (float)SCREEN_HEIGHT-SCREEN_HEIGHT*0.2;
+	m_position.x = (float)((SCREEN_WIDTH -  m_dimmensions.x)/2);
+	m_position.y = (float)(SCREEN_HEIGHT-SCREEN_HEIGHT*0.2);
 
 	// Set speed
 	m_speed = START_SPEED;
@@ -66,25 +84,63 @@ bool Ball::Initialize() {
 	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
-// |							   Destructor									|
+// |							    Shutdown									|
 // |----------------------------------------------------------------------------|
-Ball::~Ball() {
-	debug ("Ball: instance destroyed.");
+bool Ball::Shutdown() {
+
+    // Cleanup dynamic data members
+    if (m_green)
+    {
+        m_green->Shutdown();
+        delete m_green;
+        m_green = 0;
+    }
+    if (m_blue)
+    {
+        m_blue->Shutdown();
+        delete m_blue;
+        m_blue = 0;
+    }
+    if (m_red)
+    {
+        m_red->Shutdown();
+        delete m_red;
+        m_red = 0;
+    }
+    if (m_orange)
+    {
+        m_orange->Shutdown();
+        delete m_orange;
+        m_orange = 0;
+    }
+    if (m_yellow)
+    {
+        m_yellow->Shutdown();
+        delete m_yellow;
+        m_yellow = 0;
+    }
+
+    // Shutdown parent data
+    RectangleClass::Shutdown();
+
+	debug ("Ball: object shutdown.");
+	return true;
 }
 
 
 // |----------------------------------------------------------------------------|
-// |							    logic()										|
+// |							    Logic()										|
 // |----------------------------------------------------------------------------|
-int Ball::logic() {
-	debug ("Ball: logic() called.", 10);
+bool Ball::Logic() {
+	debug ("Ball: Logic() called.", 10);
 
 	// Fire ball if mouse button is pressed
 	if (m_attached && m_player && (InputClass::GetInstance())->IsMouseButtonPressed(0))
 	{
 		m_attached = false;
-		m_velocity.y = (float)-1*m_speed;
+		m_velocity.y = (float)(-1*m_speed);
 		m_velocity.x = 0;
         SoundClass::GetInstance()->PlayFire();
 	}
@@ -101,7 +157,7 @@ int Ball::logic() {
 		m_position.y = m_position.y + m_velocity.y;
 	}
 
-	return m_error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
@@ -112,8 +168,8 @@ bool Ball::HandleCollision(RectangleClass* collider)
 	Coord y_position = collider->GetPosition();
 	Coord y_dimmensions = collider->GetDimmensions();
 	//Coord y_velocity = collider->GetDimmensions();
-	int me_top(m_position.y), me_bottom(m_position.y+m_dimmensions.y), me_left(m_position.x), me_right(m_position.x+m_dimmensions.x);
-	int yu_top(y_position.y), yu_bottom(y_position.y+y_dimmensions.y), yu_left(y_position.x), yu_right(y_position.x+y_dimmensions.x);
+	int me_top((int)m_position.y), me_bottom((int)(m_position.y+m_dimmensions.y)), me_left((int)m_position.x), me_right((int)(m_position.x+m_dimmensions.x));
+	int yu_top((int)y_position.y), yu_bottom((int)(y_position.y+y_dimmensions.y)), yu_left((int)y_position.x), yu_right((int)(y_position.x+y_dimmensions.x));
 
 	// Determine side of collision and reverse proper direction
 
@@ -161,8 +217,8 @@ bool Ball::PlayerCollide(Player* collider)
 	float direction = (m_position.x+m_dimmensions.x/2)-(collider_position.x+collider_dimmensions.x/2);
 	direction /= collider_dimmensions.x;
 
-	m_velocity.x = direction*m_speed;
-	m_velocity.y = -1*sqrt(m_speed*m_speed - m_velocity.x*m_velocity.x);
+	m_velocity.x = (float)(direction*m_speed);
+	m_velocity.y = (float)(-1*sqrt(m_speed*m_speed - m_velocity.x*m_velocity.x));
 
 	return true;
 }

@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Screen
 //		Contains all objects pertaining to a particular screen. Manages the
@@ -27,45 +27,49 @@ class Screen {
 
 public:
 
-	Screen () : error(0), done(false) {}
-	// Default constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	// ~Screen();
-	// Destructor
+	// Constructors and Destructors
+    Screen() : m_done(0), m_nextScreen(QUIT) {}
+    Screen(const Screen&) {}
+    ~Screen() {}
 
-	int virtual logic() = 0;
+    // Initialization and shutdown
+	bool virtual Initialize() {return true;}
+	bool virtual Shutdown() {return true;}
+    
 	// The logic function, which will be called by the main game loop.
 	// TO BE IMPLEMENTED BY SUB CLASS
-
-	int virtual draw() = 0;
+	bool virtual Logic() = 0;
+    
 	// The draw function, which will be called by the main game loop.
 	// TO BE IMPLEMENTED BY SUB CLASS
-
-	int virtual onLoad() = 0;
+	bool virtual Draw() = 0;
+    
 	// Called when the screen is loaded.
 	// TO BE IMPLEMENTED BY SUB CLASS
-
-	int virtual onExit() = 0;
+	bool virtual OnLoad() = 0;
+    
 	// Called when switching to a different screen
 	// TO BE IMPLEMENTED BY SUB CLASS
-
-	bool virtual isDone() { return done; }
+	bool virtual OnExit() = 0;
+    
 	// Returns whether the screen is done (ready to close) or not.
-
-	SCREEN virtual getNextScreen()  { return next_screen; }
+	bool virtual IsDone() { return m_done; }
+    
 	// Tells the game class what screen to load after this one
-
-	void virtual setNextScreen(SCREEN new_next) { next_screen= new_next; }
+	SCREEN virtual GetNextScreen()  { return m_nextScreen; }
+    
 	// Sets the screen that will be loaded after this one
-
-	void virtual setDone(bool new_done) { done = new_done; }
+	void virtual SetNextScreen(SCREEN new_next) { m_nextScreen= new_next; }
+    
 	// Sets whether the screen will quit or not
+	void virtual SetDone(bool new_done) { m_done = new_done; }
 	
 protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-	int error;
-	bool done;
-	SCREEN next_screen;
+	bool m_done;
+	SCREEN m_nextScreen;
 
 };

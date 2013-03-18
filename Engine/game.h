@@ -1,12 +1,13 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Game
-//		Holds game-wide variables and methods. Holds asset managers, screens,
+//		Holds game-wide variables and methods. Holds screens
 //		and game-wide logic and draw loops (calls screen-specific loops).
 //		Governs game-wide options and switching between screens.
 #pragma once
+
 
 // |----------------------------------------------------------------------------|
 // |								Includes									|
@@ -24,35 +25,29 @@ class Game {
 
 public:
 
-	Game ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+	// Constructors and Destructors
+	Game();
+	Game(const Game&);
 	~Game();
-	// Destructor
 
-	int Initialize();
-	// Sets up the game.
-
-	int Frame();
+    // Initialization and shutdown
+	bool virtual Initialize();
+	bool virtual Shutdown();
+    
 	// Runs input, logic and draw in game loop.
-
-	int changeScreen(SCREEN next_screen);
+	bool Frame();
+    
 	// Sets the current screen to the supplied screen index.
+	bool ChangeScreen(SCREEN next_screen);
 	
 protected:
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 	// Screens
-	Screen* current_screen;
-	Screen** screens;
-
-	// Input Management
-	//Input input;
-
-	// Miscellaneous
-	bool redraw;
-	bool quit;
-	int error;
+	Screen* m_currentScreen;
+	Screen** m_screens;
 
 };

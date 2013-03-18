@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Ball
 //		Ball which can be fired by the player, and which bounces and hits 
@@ -25,38 +25,42 @@ class Ball : public RectangleClass {
 	
 public:
 
-	Ball ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	~Ball ();
-	// De-constructor
+	// Constructors and Destructors
+	Ball();
+	Ball(const Ball&);
+	~Ball();
 
+    // Initialization and shutdown
 	bool virtual Initialize();
-	// Sets up the rectangle
-
-	int virtual logic();
+	bool virtual Shutdown();
+    
 	// Performs logic functions for the object
-
-	bool isAttached();
-	// Checks if ball is attached to the paddle
-
-	void Respawn();
-	// Attaches the ball back to the paddle
-
-	void ColorChange();
+	bool virtual Logic();
+    
 	// Changes to next color
-
-	void IncreaseSpeed() {m_speed += 1;}
+	void virtual ColorChange();
+    
+	// Checks if ball is attached to the paddle
+	bool isAttached();
+    
+	// Attaches the ball back to the paddle
+	void Respawn();
+    
 	// Increases the speed
-
-	void ResetSpeed() {m_speed = START_SPEED;}
+	void IncreaseSpeed() {m_speed += 1;}
+    
 	// Return speed to start speed
+	void ResetSpeed() {m_speed = START_SPEED;}
 
-	// Getter/Setter
-	void SetPlayer(Player* player) { m_player = player; }
-
+    // Collision
 	bool virtual HandleCollision(RectangleClass* collider);
 	bool virtual PlayerCollide(Player* collider);
+
+	// Setter functions
+	void SetPlayer(Player* player) { m_player = player; }
+
 	
 protected:
 	

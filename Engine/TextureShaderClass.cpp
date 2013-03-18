@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // TextureShaderClass
 //		Wraps and interacts with the shaders (vertex and pixel shaders)
@@ -47,7 +47,6 @@ TextureShaderClass::~TextureShaderClass()
 bool TextureShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
-
 
 	// Initialize the vertex and pixel shaders.
 	result = InitializeShader(device, hwnd, L"../Engine/texture.vs", L"../Engine/texture.ps");

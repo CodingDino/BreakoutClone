@@ -1,9 +1,9 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // SystemClass
-//		Contains management classes for game objects, graphics, and input.
+//		Contains management classes for game objects, sound, graphics, and input.
 
 
 // |----------------------------------------------------------------------------|
@@ -18,8 +18,6 @@
 SystemClass::SystemClass() :
 	m_Input(0),
 	m_Graphics(0),
-	m_Fps(0),
-	m_Cpu(0),
 	m_Timer(0),
 	m_Sound(0),
 	m_game(0)
@@ -87,26 +85,6 @@ bool SystemClass::Initialize()
 	{
 		return false;
 	}
-
-	// Create the fps object.
-	m_Fps = new FpsClass;
-	if(!m_Fps)
-	{
-		return false;
-	}
-
-	// Initialize the fps object.
-	m_Fps->Initialize();
-
-	// Create the cpu object.
-	m_Cpu = new CpuClass;
-	if(!m_Cpu)
-	{
-		return false;
-	}
-
-	// Initialize the cpu object.
-	m_Cpu->Initialize();
 
 	// Create the timer object.
 	m_Timer = new TimerClass;
@@ -176,21 +154,6 @@ void SystemClass::Shutdown()
 	{
 		delete m_Timer;
 		m_Timer = 0;
-	}
-
-	// Release the cpu object.
-	if(m_Cpu)
-	{
-		m_Cpu->Shutdown();
-		delete m_Cpu;
-		m_Cpu = 0;
-	}
-
-	// Release the fps object.
-	if(m_Fps)
-	{
-		delete m_Fps;
-		m_Fps = 0;
 	}
 
 	// Release the graphics object.
@@ -285,8 +248,6 @@ bool SystemClass::Frame()
 	}
 
 	// Sound effects
-	if (m_Input->IsMPressed()) m_Sound->Mute();
-	if (m_Input->IsNPressed()) m_Sound->UnMute();
 	m_Sound->Frame(m_Timer->GetTime());
 
 	// Get the location of the mouse from the input object,
@@ -294,8 +255,6 @@ bool SystemClass::Frame()
 
 	// Update the system timers.
 	m_Timer->Frame();
-	m_Fps->Frame();
-	m_Cpu->Frame();
 
 	// Run game logic
 	result = result && m_Graphics->BeginRender();

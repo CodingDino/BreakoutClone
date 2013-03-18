@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // BitmapClass
 //		Holds one bitmap
@@ -37,12 +37,10 @@ public:
 	BitmapClass();
 	BitmapClass(const BitmapClass&);
 	~BitmapClass();
-
-	// Initiallizes a bitmap
+    
+    // Initialization and shutdown
 	bool Initialize(ID3D11Device* device, int screenWidth, int screenHeight, 
 		WCHAR* textureFilename, int bitmapWidth, int bitmapHeight);
-
-	// Releases bitmap data
 	void Shutdown();
 	
 	// Renders to screen

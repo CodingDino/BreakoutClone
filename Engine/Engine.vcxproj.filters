@@ -17,9 +17,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Graphics\Text">
-      <UniqueIdentifier>{ba7214f0-17ae-4c6b-befa-112bf3056322}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Wrapper">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -59,23 +56,8 @@
     <ClCompile Include="GraphicsClass.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="FPSClass.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="FontClass.cpp">
-      <Filter>Graphics\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="FontShaderClass.cpp">
-      <Filter>Graphics\Shader Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Textclass.cpp">
-      <Filter>Graphics\Text</Filter>
-    </ClCompile>
     <ClCompile Include="TextureShaderClass.cpp">
       <Filter>Graphics\Shader Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CPUClass.cpp">
-      <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="BitmapClass.cpp">
       <Filter>Graphics</Filter>
@@ -88,12 +70,6 @@
     </ClCompile>
     <ClCompile Include="LevelScreen.cpp">
       <Filter>Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="cameraclass.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game</Filter>
@@ -112,6 +88,12 @@
     </ClCompile>
     <ClCompile Include="ScoreScreen.cpp">
       <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraClass.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,26 +121,11 @@
     <ClInclude Include="D3dClass.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="FPSClass.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="SoundClass.h">
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="TimerClass.h">
       <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="CPUClass.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="FontClass.h">
-      <Filter>Graphics\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="FontShaderClass.h">
-      <Filter>Graphics\Shader Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextClass.h">
-      <Filter>Graphics\Text</Filter>
     </ClInclude>
     <ClInclude Include="TextureShaderClass.h">
       <Filter>Graphics\Shader Files</Filter>
@@ -171,12 +138,6 @@
     </ClInclude>
     <ClInclude Include="LevelScreen.h">
       <Filter>Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="cameraclass.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game</Filter>
@@ -196,18 +157,18 @@
     <ClInclude Include="ScoreScreen.h">
       <Filter>Screens</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraClass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="texture.vs">
       <Filter>Graphics\Shader Files</Filter>
     </None>
     <None Include="texture.ps">
-      <Filter>Graphics\Shader Files</Filter>
-    </None>
-    <None Include="font.ps">
-      <Filter>Graphics\Shader Files</Filter>
-    </None>
-    <None Include="font.vs">
       <Filter>Graphics\Shader Files</Filter>
     </None>
   </ItemGroup>

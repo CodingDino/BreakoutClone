@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // TextureShaderClass
 //		Wraps and interacts with the shaders (vertex and pixel shaders)
@@ -43,10 +43,8 @@ public:
 	TextureShaderClass(const TextureShaderClass&);
 	~TextureShaderClass();
 	
-	// Initializes the shaders
+    // Initialization and shutdown
 	bool Initialize(ID3D11Device* device, HWND hwnd);
-	
-	// Performs shutdown, deallocation, and cleanup for shaders
 	void Shutdown();
 
 	// Renders the provided matrices to the DX device

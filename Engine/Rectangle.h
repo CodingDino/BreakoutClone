@@ -1,10 +1,10 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
-// Circle
+// Rectangle
 //		Governs movement, collision detection, and drawing for a 
-//      circle object. 
+//      Rectangle object. 
 #pragma once
 
 // |----------------------------------------------------------------------------|
@@ -23,34 +23,30 @@ class RectangleClass {
 
 public:
 
-	RectangleClass ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+	// Constructors and Destructors
+	RectangleClass();
+	RectangleClass(const RectangleClass&);
 	~RectangleClass();
-	// Destructor
 
+    // Initialization and shutdown
 	bool virtual Initialize();
-	// Sets up the rectangle
-
-	int virtual draw();
+	bool virtual Shutdown();
+    
 	// Draws the object to the active bitmap
-
-	int virtual logic(int mouse_x, int mouse_y);
+	bool virtual Draw();
+    
 	// Performs logic functions for the object
-
+	bool virtual Logic();
+    
+	// Stub for ball color change function
 	void virtual ColorChange() {}
-	// Changes to next color
-	
-	// Input functions
-	int virtual onMouseDown(int button);
-	int virtual onMouseUp(int button);
-	int virtual onKeyDown(int button);
-	int virtual onKeyUp(int button);
-
+    
+	// Collision
 	bool virtual Collision(RectangleClass* collider);
 	bool virtual CheckCollision(RectangleClass* collider);
 	bool virtual HandleCollision(RectangleClass* collider);
-	// Checks for and handles collision
 
 	// Getter functions
 	Coord GetPosition() {return m_position; }
@@ -62,7 +58,7 @@ public:
 	void virtual SetDimmensions(Coord new_dimmensions) {m_dimmensions = new_dimmensions;}
 	
 protected:
-
+    
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 	Coord m_position;		// Position of the center of the circle
@@ -70,7 +66,5 @@ protected:
 	Coord m_dimmensions;	// Position of the center of the circle
 
 	BitmapClass* m_graphic;	// Graphic
-
-	int m_error;			// Error code
 
 };

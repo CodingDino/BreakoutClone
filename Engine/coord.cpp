@@ -1,9 +1,9 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Coord
-//		Simple struct-like class containing an x, y, and z float coordinate
+//		Simple struct-like class containing an x, y float coordinate
 
 
 // |----------------------------------------------------------------------------|
@@ -41,7 +41,7 @@ Coord::~Coord()
 // |----------------------------------------------------------------------------|
 // |							Other Constructors								|
 // |----------------------------------------------------------------------------|
-Coord::Coord(float new_x, float new_y) :
+Coord::Coord(const float new_x, const float new_y) :
 	x(new_x), y(new_y)
 {
 }

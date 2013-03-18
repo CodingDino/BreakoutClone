@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // InputClass
 //		Gets and processes input to be made available for game class to use in 
@@ -272,13 +272,13 @@ void InputClass::ProcessInput()
 	if(m_mouseY > m_screenHeight) { m_mouseY = m_screenHeight; }
 	
 	// Update mouse status
-	if (!m_mouseDown && (bool)m_mouseState.rgbButtons[0])
+	if (!m_mouseDown && m_mouseState.rgbButtons[0])
 		m_mousePressed = true;
 	if (m_mouseDown)
 		m_mousePressed = false;
-	if (!(bool)m_mouseState.rgbButtons[0])
+	if (!m_mouseState.rgbButtons[0])
 		m_mousePressed = false;
-	m_mouseDown = (bool)m_mouseState.rgbButtons[0];
+	m_mouseDown = m_mouseState.rgbButtons[0];
 
 	return;
 }
@@ -298,215 +298,6 @@ bool InputClass::IsEscapePressed()
 	return false;
 }
 
-
-// |----------------------------------------------------------------------------|
-// |						   IsLeftArrowPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsLeftArrowPressed()
-{
-	if(m_keyboardState[DIK_LEFT] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |						   IsRightArrowPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsRightArrowPressed()
-{
-	if(m_keyboardState[DIK_RIGHT] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |						    IsUpArrowPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsUpArrowPressed()
-{
-	if(m_keyboardState[DIK_UP] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |						    IsDownArrowPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsDownArrowPressed()
-{
-	if(m_keyboardState[DIK_DOWN] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsWPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsWPressed()
-{
-	if(m_keyboardState[DIK_W] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsAPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsAPressed()
-{
-	if(m_keyboardState[DIK_A] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsSPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsSPressed()
-{
-	if(m_keyboardState[DIK_S] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsDPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsDPressed()
-{
-	if(m_keyboardState[DIK_D] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsQPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsQPressed()
-{
-	if(m_keyboardState[DIK_Q] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								IsEPressed									|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsEPressed()
-{
-	if(m_keyboardState[DIK_E] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |							   IsSpacePressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsSpacePressed()
-{
-	if(m_keyboardState[DIK_SPACE] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |						      IsLeftControlPressed							|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsLeftControlPressed()
-{
-	if(m_keyboardState[DIK_LCONTROL] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								    IsMPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsMPressed()
-{
-	if(m_keyboardState[DIK_M] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-// |----------------------------------------------------------------------------|
-// |								    IsMPressed								|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsNPressed()
-{
-	if(m_keyboardState[DIK_N] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
-// |----------------------------------------------------------------------------|
-// |								 IsMovementPressed							|
-// |----------------------------------------------------------------------------|
-bool InputClass::IsMovementPressed()
-{
-	if( IsLeftArrowPressed() || IsRightArrowPressed() || IsUpArrowPressed() || 
-		IsDownArrowPressed() || IsSpacePressed() || IsLeftControlPressed() )
-	{
-		return true;
-	}
-
-	return false;
-}
 
 // |----------------------------------------------------------------------------|
 // |						   GetMouseLocation									|

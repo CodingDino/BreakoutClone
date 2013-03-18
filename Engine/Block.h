@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Block
 //		Block which collides with ball and knocks it away, getting hurt or 
@@ -28,29 +28,30 @@ class Block : public RectangleClass {
 	
 public:
 
-	Block ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	~Block ();
-	// De-constructor
+	// Constructors and Destructors
+	Block();
+	Block(const Block&);
+	~Block();
 
+    // Initialization and shutdown
 	bool virtual Initialize();
-	// Sets up the rectangle
-
-	int virtual logic();
+	bool virtual Shutdown();
+    
 	// Performs logic functions for the object
+	bool virtual Logic();
+	
+	// Checks if block should be despawned
+	bool IsDead() { if(m_hp <= 0) return true; return false;}
 
 	// Collision
 	bool virtual HandleCollision(RectangleClass* collider);
 	
-	bool IsDead() { if(m_hp <= 0) return true; return false;}
-	// Checks if block should be despawned
-	
+    // Setter Functions
 	void SetType(BLOCK blockType);
-	// Sets the type for this block
 	
 protected:
-	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 	int m_hp;

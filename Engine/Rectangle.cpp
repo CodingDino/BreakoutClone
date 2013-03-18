@@ -1,10 +1,10 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
-// Circle
+// Rectangle
 //		Governs movement, collision detection, and drawing for a 
-//      circle object. 
+//      Rectangle object. 
 
 // |----------------------------------------------------------------------------|
 // |								Includes									|
@@ -18,17 +18,22 @@ RectangleClass::RectangleClass() :
 	m_position(0,0),
 	m_velocity(0,0),
 	m_dimmensions(0,0),
-	m_graphic(0),
-	m_error(0)
+	m_graphic(0)
 {		
 	debug ("RectangleClass: object instantiated.");
+}
+
+// |----------------------------------------------------------------------------|
+// |							  Copy Constructor								|
+// |----------------------------------------------------------------------------|
+RectangleClass::RectangleClass(const RectangleClass&) {
+	debug ("RectangleClass: object copied.");
 }
 
 // |----------------------------------------------------------------------------|
 // |							   Destructor									|
 // |----------------------------------------------------------------------------|
 RectangleClass::~RectangleClass() {
-	delete m_graphic;	
 	debug ("RectangleClass: object destroyed.");
 }
 
@@ -36,77 +41,56 @@ RectangleClass::~RectangleClass() {
 // |							   Initialize									|
 // |----------------------------------------------------------------------------|
 bool RectangleClass::Initialize() {
-
 	debug ("RectangleClass: object initialized.");
-
 	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
-// |							     draw()										|
+// |							    Shutdown									|
+// |----------------------------------------------------------------------------|
+bool RectangleClass::Shutdown() {
+
+    // Cleanup dynamic data members
+    if (m_graphic)
+    {
+        m_graphic->Shutdown();
+        delete m_graphic;
+        m_graphic = 0;
+    }
+
+	debug ("RectangleClass: object shutdown.");
+	return true;
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							     Draw()										|
 // |----------------------------------------------------------------------------|
 // The draw function, which will be called by the screen or level.
-int RectangleClass::draw() {
+bool RectangleClass::Draw() {
 	debug ("RectangleClass: draw() called.", 10);
 
 	// Draw the rectangle's image
 	if (m_graphic)
 		(GraphicsClass::GetInstance())->BitmapRender(*m_graphic, (int)m_position.x, (int)m_position.y);
 
-	return m_error;
+	return true;
 }
 
 
 // |----------------------------------------------------------------------------|
-// |							    logic()										|
+// |							    Logic()										|
 // |----------------------------------------------------------------------------|
-int RectangleClass::logic(int mouse_x, int mouse_y) {
-	debug ("RectangleClass: logic() called.", 10);
+bool RectangleClass::Logic() {
+	debug ("RectangleClass: Logic() called.", 10);
 
-	// Move based on velocity
-	//if(m_velocity.x || m_velocity.y) setPosition(m_position+m_velocity);
-
-	return m_error;
+	return true;
 }
 
-// |----------------------------------------------------------------------------|
-// |							    onMouseDown()								|
-// |----------------------------------------------------------------------------|
-int RectangleClass::onMouseDown(int button) {
-	debug ("RectangleClass: onMouseDown() called.");
-
-	return m_error;
-}
 
 // |----------------------------------------------------------------------------|
-// |							     onMouseUp()								|
-// |----------------------------------------------------------------------------|
-int RectangleClass::onMouseUp(int button) {
-	debug ("RectangleClass: onMouseUp() called.");
-
-	return m_error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							     onKeyDown()								|
-// |----------------------------------------------------------------------------|
-int RectangleClass::onKeyDown(int button) {
-	debug ("RectangleClass: onKeyDown() called.");
-
-	return m_error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							      onKeyUp() 		 						|
-// |----------------------------------------------------------------------------|
-int RectangleClass::onKeyUp(int button) {
-	debug ("RectangleClass: onKeyUp() called.");
-
-	return m_error;
-}
-
-// |----------------------------------------------------------------------------|
-// |							    Collide()									|
+// |							   Collision()									|
 // |----------------------------------------------------------------------------|
 bool RectangleClass::Collision(RectangleClass* collider)
 {
@@ -122,6 +106,7 @@ bool RectangleClass::Collision(RectangleClass* collider)
 	return false;
 }
 
+
 // |----------------------------------------------------------------------------|
 // |						    CheckCollision()								|
 // |----------------------------------------------------------------------------|
@@ -133,6 +118,7 @@ bool RectangleClass::CheckCollision(RectangleClass* collider)
 				(m_position.x+m_velocity.x > (collider->m_position.x+collider->m_dimmensions.x+collider->m_velocity.x)) 
 			);
 }
+
 
 // |----------------------------------------------------------------------------|
 // |						    HandleCollision()								|

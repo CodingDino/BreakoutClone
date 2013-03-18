@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // InputClass
 //		Gets and processes input to be made available for game class to use in 
@@ -39,10 +39,8 @@ public:
 	// Singleton instance requests
 	static InputClass* GetInstance();
 	
-	// Initializes mouse and keyboard settings
+    // Initialization and shutdown
 	bool Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight);
-	
-	// Performs shutdown, deallocation, and cleanup for input objects
 	void Shutdown();
 	
 	// Gets input and processes it
@@ -50,21 +48,6 @@ public:
 
 	// Key press checks
 	bool IsEscapePressed();
-	bool IsLeftArrowPressed();
-	bool IsRightArrowPressed();
-	bool IsUpArrowPressed();
-	bool IsDownArrowPressed();
-	bool IsWPressed();
-	bool IsAPressed();
-	bool IsSPressed();
-	bool IsDPressed();
-	bool IsQPressed();
-	bool IsEPressed();
-	bool IsSpacePressed();
-	bool IsLeftControlPressed();
-	bool IsMPressed();
-	bool IsNPressed();
-	bool IsMovementPressed();
 
 	// Gets mouse position
 	void GetMouseLocation(int& mouseX, int& mouseY);

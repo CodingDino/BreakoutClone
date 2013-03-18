@@ -1,9 +1,9 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // SystemClass
-//		Contains management classes for game objects, graphics, and input.
+//		Contains management classes for game objects, sound, graphics, and input.
 #pragma once
 
 
@@ -19,8 +19,6 @@
 #include <windows.h>
 #include "inputclass.h"
 #include "graphicsclass.h"
-#include "fpsclass.h"
-#include "cpuclass.h"
 #include "timerclass.h"
 #include "soundclass.h"
 #include "game.h"
@@ -82,8 +80,6 @@ private:
 	Game* m_game;
 	
 	// Timing classes
-	FpsClass* m_Fps;
-	CpuClass* m_Cpu;
 	TimerClass* m_Timer;
 
 	// Sound

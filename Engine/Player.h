@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Player
 //		Controls the player object's position, movement, image, and actions. 
@@ -21,24 +21,18 @@ class Player : public RectangleClass {
 	
 public:
 
-	Player ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	~Player ();
-	// De-constructor
+	// Constructors and Destructors
+	Player();
+	Player(const Player&);
+	~Player();
 
+    // Initialization and shutdown
 	bool virtual Initialize();
-	// Sets up the rectangle
-
-	int virtual logic();
+	bool virtual Shutdown();
+    
 	// Performs logic functions for the object
-	
-	// Input functions
-	int virtual onMouseDown(int button);
-	int virtual onMouseUp(int button);
-	
-protected:
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~   Data Members   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-	double speed;
+	bool virtual Logic();
+
 };

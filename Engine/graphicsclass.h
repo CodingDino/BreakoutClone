@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // GraphicsClass
 //		Overall control of graphics and rendering, holds model objects and other graphics objects
@@ -15,8 +15,8 @@
 #include "Coord.h"
 #include "Util.h"
 #include "BitmapClass.h"
-#include "textclass.h"
 #include "cameraclass.h"
+
 
 // |----------------------------------------------------------------------------|
 // |								 Globals									|
@@ -40,10 +40,8 @@ public:
 	// Singleton instance requests
 	static GraphicsClass* GetInstance();
 	
-	// Creates and initializes all data members, sets initial graphics state
+    // Initialization and shutdown
 	bool Initialize(int screenWidth, int screenHeight, HWND hwnd);
-
-	// Performs shutdown, deallocation, and cleanup for data members
 	void Shutdown();
 
 	// Frame-by-frame graphics processing

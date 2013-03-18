@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // TextureClass
 //		Holds one texture
@@ -27,11 +27,9 @@ public:
 	TextureClass();
 	TextureClass(const TextureClass&);
 	~TextureClass();
-
-	// Initiallizes a texture
+    
+    // Initialization and shutdown
 	bool Initialize(ID3D11Device* device, WCHAR* filename);
-
-	// Releases texture data
 	void Shutdown();
 
 	// Getter functions

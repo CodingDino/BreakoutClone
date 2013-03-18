@@ -1,6 +1,6 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // Button
 //		Defines the screen change button's location, text, image, and function. 
@@ -20,14 +20,16 @@ class Button : public Block {
 	
 public:
 
-	Button ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-	~Button ();
-	// De-constructor
+	// Constructors and Destructors
+	Button();
+	Button(const Button&);
+	~Button();
 
+    // Initialization and shutdown
 	bool virtual Initialize(Screen* parent, SCREEN nextScreen, WCHAR* textureFilename);
-	// Sets up the rectangle
+	bool virtual Shutdown();
 	
 	// Collision
 	bool virtual HandleCollision(RectangleClass* collider);

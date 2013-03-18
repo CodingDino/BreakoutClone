@@ -1,9 +1,9 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // LevelScreen
-//		Contains all objects pertaining to the zen mode. Manages the
+//		Contains all objects pertaining to the main game level. Manages the
 //		logic and draw loops for that screen.
 #pragma once
 
@@ -29,35 +29,34 @@ class LevelScreen : public Screen {
 
 public:
 
-	LevelScreen ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+	// Constructors and Destructors
+	LevelScreen();
+	LevelScreen(const LevelScreen&);
 	~LevelScreen();
-	// Destructor
 
-	int virtual logic();
+    // Initialization and shutdown
+	bool virtual Initialize();
+	bool virtual Shutdown();
+    
 	// The logic function, which will be called by the main game loop.
-
-	int virtual draw();
+	bool virtual Logic();
+    
 	// The draw function, which will be called by the main game loop.
-
-	int virtual onLoad();
+	bool virtual Draw();
+    
 	// Called when the screen is loaded.
-
-	int virtual onExit();
+	bool virtual OnLoad();
+    
 	// Called when switching to a different screen
-
-	void loadFromFile(const char* fileName, int* levelInfo);
-	// Loads a level from file
-
-	void loadNext();
-	// Loads the next level
-
-	void loadScoresFromFile();
-	// Loads high scores from file
-
-	void saveScoresToFile();
-	// Saves high scores to file
+	bool virtual OnExit();
+    
+	// File loading and saving
+	void LoadFromFile(const char* fileName, int* levelInfo);
+	void LoadNext();
+	void LoadScoresFromFile();
+	void SaveScoresToFile();
 	
 protected:
 

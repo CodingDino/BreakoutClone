@@ -1,10 +1,9 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // MenuScreen
-//		Controls the image, music, and buttons for the main menu of the game. It 
-//		will set up the onClick functions for each of the buttons.
+//		Controls the image and buttons for the main menu of the game.
 #pragma once
 
 // |----------------------------------------------------------------------------|
@@ -30,10 +29,33 @@ MenuScreen::MenuScreen() :
 	m_start(0),
 	m_scores(0),
 	m_quit(0)
-	{
+{
+	debug ("MenuScreen: object instantiated.");
+}
+     
 
-	// Set next screen to QUIT - it will be updated by the buttons.
-	setNextScreen(QUIT);
+// |----------------------------------------------------------------------------|
+// |							  Copy Constructor								|
+// |----------------------------------------------------------------------------|
+MenuScreen::MenuScreen(const MenuScreen&) {
+	debug ("MenuScreen: object copied.");
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							   Destructor									|
+// |----------------------------------------------------------------------------|
+MenuScreen::~MenuScreen() {
+	debug ("MenuScreen: object destroyed.");
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							   Initialize									|
+// |----------------------------------------------------------------------------|
+bool MenuScreen::Initialize() {
+    // Set next screen to QUIT - it will be updated by the buttons.
+	SetNextScreen(QUIT);
 
 	// Get handles for Singleton managers
 	m_D3D = D3DClass::GetInstance();
@@ -52,8 +74,7 @@ MenuScreen::MenuScreen() :
 	if(!result)
 	{
 		debug("Could not initialize the m_titleScreen object.");
-		error=1;
-		return;
+		return false;
 	}
 
 	// Objects
@@ -66,7 +87,7 @@ MenuScreen::MenuScreen() :
 
 	m_top = new RectangleClass();
 	m_top->Initialize();
-	m_top->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_top->SetDimmensions(Coord((float)SCREEN_WIDTH,(float)35*SCALE_Y));
 	m_top->SetPosition(Coord(0,0));
 
 	m_left = new RectangleClass();
@@ -81,59 +102,110 @@ MenuScreen::MenuScreen() :
 
 	m_bottom = new RectangleClass();
 	m_bottom->Initialize();
-	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
-	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
+	m_bottom->SetDimmensions(Coord((float)SCREEN_WIDTH,35*SCALE_Y));
+	m_bottom->SetPosition(Coord(0,(float)SCREEN_HEIGHT+20));
 
 	m_start = new Button();
 	m_start->Initialize(this, LEVEL, L"../Engine/data/button_start.png");
-	m_start->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2-178*SCALE_X*1.5,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_start->SetPosition(Coord((float)((SCREEN_WIDTH - 178*SCALE_X)/2-178*SCALE_X*1.5),(float)(SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)));
 
 	m_scores = new Button();
 	m_scores->Initialize(this, SCORES, L"../Engine/data/button_score.png");
-	m_scores->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_scores->SetPosition(Coord((float)((SCREEN_WIDTH - 178*SCALE_X)/2),(float)(SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)));
 
 	m_quit = new Button();
 	m_quit->Initialize(this, QUIT, L"../Engine/data/button_quit.png");
-	m_quit->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2+178*SCALE_X*1.5,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_quit->SetPosition(Coord((float)((SCREEN_WIDTH - 178*SCALE_X)/2+178*SCALE_X*1.5),(float)(SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)));
 
-	debug ("MenuScreen: object instantiated.");
+	debug ("MenuScreen: object initialized.");
+	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
-// |							   Destructor									|
+// |							    Shutdown									|
 // |----------------------------------------------------------------------------|
-MenuScreen::~MenuScreen() {
+bool MenuScreen::Shutdown() {
 
-	// Release Bitmaps
-	m_background->Shutdown();
-	delete m_background;
+    // Cleanup dynamic data members
+    if (m_background)
+    {
+        m_background->Shutdown();
+        delete m_background;
+        m_background = 0;
+    }
+    if (m_player)
+    {
+        m_player->Shutdown();
+        delete m_player;
+        m_player = 0;
+    }
+    if (m_ball)
+    {
+        m_ball->Shutdown();
+        delete m_ball;
+        m_ball = 0;
+    }
+    if (m_top)
+    {
+        m_top->Shutdown();
+        delete m_top;
+        m_top = 0;
+    }
+    if (m_left)
+    {
+        m_left->Shutdown();
+        delete m_left;
+        m_left = 0;
+    }
+    if (m_right)
+    {
+        m_right->Shutdown();
+        delete m_right;
+        m_right = 0;
+    }
+    if (m_bottom)
+    {
+        m_bottom->Shutdown();
+        delete m_bottom;
+        m_bottom = 0;
+    }
+    if (m_start)
+    {
+        m_start->Shutdown();
+        delete m_start;
+        m_start = 0;
+    }
+    if (m_scores)
+    {
+        m_scores->Shutdown();
+        delete m_scores;
+        m_scores = 0;
+    }
+    if (m_quit)
+    {
+        m_quit->Shutdown();
+        delete m_quit;
+        m_quit = 0;
+    }
 
-	// Release objects
-	delete m_player;
-	delete m_ball;
-	delete m_top;
-	delete m_left;
-	delete m_right;
-	delete m_bottom;
-	delete m_start;
-	delete m_scores;
-	delete m_quit;
-
-	debug ("MenuScreen: object destroyed.");
+	debug ("MenuScreen: object shutdown.");
+	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
-// |							     logic()									|
+// |							     Logic()									|
 // |----------------------------------------------------------------------------|
 // The logic function, which will be called by the main game loop.
-int MenuScreen::logic() {
-	debug ("MenuScreen: logic() called.", 10);
+bool MenuScreen::Logic() {
+	debug ("MenuScreen: Logic() called.", 10);
 	
 	// Player and ball logic
 	if (m_player)
-		m_player->logic();
+		m_player->Logic();
 	if (m_ball)
-		m_ball->logic();
+		m_ball->Logic();
     
 	// Border Collisions
 	if(m_ball->Collision(m_top))
@@ -160,65 +232,54 @@ int MenuScreen::logic() {
 	if(m_ball->Collision(m_quit))
         SoundClass::GetInstance()->PlayBreak();
 
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							     draw()										|
+// |							     Draw()										|
 // |----------------------------------------------------------------------------|
 // The draw function, which will be called by the main game loop.
-int MenuScreen::draw() {
-	debug ("MenuScreen: draw() called.", 10);
+bool MenuScreen::Draw() {
+	debug ("MenuScreen: Draw() called.", 10);
 
 	// Draw Background
 	if (m_background)
 		m_graphics->BitmapRender(*m_background, m_backgroundX, m_backgroundY);
 
-	//// Draw Buttons
-	//button_exit.draw();
-	//button_zen.draw();
-	//button_adventure.draw();
-	//button_time.draw();
-	//button_survival.draw();
-	//button_score.draw();
-	//button_options.draw();
-
 	// Draw objects
 	if (m_player)
-		m_player->draw();
+		m_player->Draw();
 	if (m_ball)
-		m_ball->draw();
+		m_ball->Draw();
 	if (m_start)
-		m_start->draw();
+		m_start->Draw();
 	if (m_scores)
-		m_scores->draw();
+		m_scores->Draw();
 	if (m_quit)
-		m_quit->draw();
+		m_quit->Draw();
 
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							    onLoad()									|
+// |							    OnLoad()									|
 // |----------------------------------------------------------------------------|
 // Called when the screen is loaded.
-int MenuScreen::onLoad() {
-	debug("MenuScreen: onLoad called");
+bool MenuScreen::OnLoad() {
+	debug("MenuScreen: OnLoad called");
 
-	done = false;
+	m_done = false;
 	m_ball->Respawn();
 
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							    onExit()									|
+// |							    OnExit()									|
 // |----------------------------------------------------------------------------|
 // Called when switching to a different screen
-int MenuScreen::onExit() {
-	debug ("MenuScreen: onExit called.");
+bool MenuScreen::OnExit() {
+	debug ("MenuScreen: OnExit called.");
 
-	//if (music) music->stop_all();
-
-	return error;
+	return true;
 }

@@ -1,10 +1,9 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // MenuScreen
-//		Controls the image, music, and buttons for the main menu of the game. It 
-//		will set up the onClick functions for each of the buttons.
+//		Controls the image and buttons for the main menu of the game.
 #pragma once
 
 // |----------------------------------------------------------------------------|
@@ -25,23 +24,28 @@ class MenuScreen : public Screen {
 
 public:
 
-	MenuScreen ();
-	// Constructor
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~   Methods   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+	// Constructors and Destructors
+	MenuScreen();
+	MenuScreen(const MenuScreen&);
 	~MenuScreen();
-	// Destructor
 
-	int virtual logic();
+    // Initialization and shutdown
+	bool virtual Initialize();
+	bool virtual Shutdown();
+    
 	// The logic function, which will be called by the main game loop.
-
-	int virtual draw();
+	bool virtual Logic();
+    
 	// The draw function, which will be called by the main game loop.
-
-	int virtual onLoad();
+	bool virtual Draw();
+    
 	// Called when the screen is loaded.
-
-	int virtual onExit();
+	bool virtual OnLoad();
+    
 	// Called when switching to a different screen
+	bool virtual OnExit();
 	
 protected:
 

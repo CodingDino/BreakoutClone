@@ -1,9 +1,9 @@
-// Pollinator - C++ Desktop Version
-// Developed by Bounder Studios
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // ScoreScreen
-//		Contains all objects pertaining to the zen mode. Manages the
+//		Contains all objects pertaining to the score screen. Manages the
 //		logic and draw loops for that screen.
 #pragma once
 
@@ -29,18 +29,40 @@ ScoreScreen::ScoreScreen() :
     m_highScoresTitle(0),
     m_highScores(0)
 {
+	debug ("ScoreScreen: object instantiated.");
+}
+  
+
+// |----------------------------------------------------------------------------|
+// |							  Copy Constructor								|
+// |----------------------------------------------------------------------------|
+ScoreScreen::ScoreScreen(const ScoreScreen&) {
+	debug ("ScoreScreen: object copied.");
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							   Destructor									|
+// |----------------------------------------------------------------------------|
+ScoreScreen::~ScoreScreen() {
+	debug ("ScoreScreen: object destroyed.");
+}
+
+// |----------------------------------------------------------------------------|
+// |							   Initialize									|
+// |----------------------------------------------------------------------------|
+bool ScoreScreen::Initialize() {
 
 	// Set MENU as the next screen after this one
-	setNextScreen(MENU); 
+	SetNextScreen(MENU); 
 
 	// Background
 	m_background = new BitmapClass();
-	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/score_background.png", 1024*SCALE_X, 768*SCALE_Y);
+	bool result = m_background->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, L"../Engine/data/score_background.png", (int)(1024*SCALE_X), (int)(768*SCALE_Y));
 	if(!result)
 	{
 		debug("Could not initialize the m_background image.");
-		error=1;
-		return;
+		return false;
 	}
 
 	// Player and Ball
@@ -54,7 +76,7 @@ ScoreScreen::ScoreScreen() :
 	// Stage borders
 	m_top = new RectangleClass();
 	m_top->Initialize();
-	m_top->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
+	m_top->SetDimmensions(Coord((float)SCREEN_WIDTH,(float)(35*SCALE_Y)));
 	m_top->SetPosition(Coord(0,0));
 
 	m_left = new RectangleClass();
@@ -69,54 +91,54 @@ ScoreScreen::ScoreScreen() :
 
 	m_bottom = new RectangleClass();
 	m_bottom->Initialize();
-	m_bottom->SetDimmensions(Coord(SCREEN_WIDTH,35*SCALE_Y));
-	m_bottom->SetPosition(Coord(0,SCREEN_HEIGHT+20));
+	m_bottom->SetDimmensions(Coord((float)SCREEN_WIDTH,(float)(35*SCALE_Y)));
+	m_bottom->SetPosition(Coord(0.0f,(float)(SCREEN_HEIGHT+20)));
 
 	// Button
 	m_menu = new Button();
 	m_menu->Initialize(this, MENU, L"../Engine/data/button_menu.png");
-	m_menu->SetPosition(Coord((SCREEN_WIDTH - 178*SCALE_X)/2,SCREEN_HEIGHT-SCREEN_HEIGHT*0.3));
+	m_menu->SetPosition(Coord(float((SCREEN_WIDTH - 178*SCALE_X)/2),float(SCREEN_HEIGHT-SCREEN_HEIGHT*0.3)));
     
 	// Numbers
 	m_numbers = new BitmapClass*[10];
 	m_numbers[0] = new BitmapClass();
 	m_numbers[0]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_0.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_0.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[1] = new BitmapClass();
 	m_numbers[1]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_1.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_1.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[2] = new BitmapClass();
 	m_numbers[2]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_2.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_2.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[3] = new BitmapClass();
 	m_numbers[3]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_3.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_3.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[4] = new BitmapClass();
 	m_numbers[4]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_4.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_4.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[5] = new BitmapClass();
 	m_numbers[5]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_5.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_5.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[6] = new BitmapClass();
 	m_numbers[6]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_6.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_6.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[7] = new BitmapClass();
 	m_numbers[7]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_7.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_7.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[8] = new BitmapClass();
 	m_numbers[8]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_8.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_8.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_numbers[9] = new BitmapClass();
 	m_numbers[9]->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_9.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_9.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 	m_colon = new BitmapClass();
 	m_colon->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_colon.png", 26*SCALE_X, 35*SCALE_Y);
+		L"../Engine/data/font_colon.png", (int)(26*SCALE_X), (int)(35*SCALE_Y));
 
     // High Scores Title
 	m_highScoresTitle = new BitmapClass();
 	m_highScoresTitle->Initialize(D3DClass::GetInstance()->GetDevice(), SCREEN_WIDTH, SCREEN_HEIGHT, 
-		L"../Engine/data/font_high_scores.png", 495*SCALE_X, 62*SCALE_Y);
+		L"../Engine/data/font_high_scores.png", (int)(495*SCALE_X), (int)(62*SCALE_Y));
 
     // High Scores
     m_highScores = new int[20];
@@ -125,40 +147,114 @@ ScoreScreen::ScoreScreen() :
         m_highScores[i] = 0;
     }
 
-	debug ("ScoreScreen: object instantiated.");
+	debug ("ScoreScreen: object initialized.");
+	return true;
 }
 
-// |----------------------------------------------------------------------------|
-// |							   Destructor									|
-// |----------------------------------------------------------------------------|
-ScoreScreen::~ScoreScreen() {
 
-	// Clean up all dynamic objects
-    delete m_highScoresTitle;
-	delete m_background;
-	delete m_player;
-	delete m_ball;
-	delete m_top;
-	delete m_left;
-	delete m_right;
-	delete m_bottom;
-	delete m_menu;
+// |----------------------------------------------------------------------------|
+// |							    Shutdown									|
+// |----------------------------------------------------------------------------|
+bool ScoreScreen::Shutdown() {
 
-	debug ("ScoreScreen: object destroyed.");
+    // Cleanup dynamic data members
+    if (m_background)
+    {
+        m_background->Shutdown();
+        delete m_background;
+        m_background = 0;
+    }
+    if (m_player)
+    {
+        m_player->Shutdown();
+        delete m_player;
+        m_player = 0;
+    }
+    if (m_ball)
+    {
+        m_ball->Shutdown();
+        delete m_ball;
+        m_ball = 0;
+    }
+    if (m_top)
+    {
+        m_top->Shutdown();
+        delete m_top;
+        m_top = 0;
+    }
+    if (m_left)
+    {
+        m_left->Shutdown();
+        delete m_left;
+        m_left = 0;
+    }
+    if (m_right)
+    {
+        m_right->Shutdown();
+        delete m_right;
+        m_right = 0;
+    }
+    if (m_bottom)
+    {
+        m_bottom->Shutdown();
+        delete m_bottom;
+        m_bottom = 0;
+    }
+    if (m_menu)
+    {
+        m_menu->Shutdown();
+        delete m_menu;
+        m_menu = 0;
+    }
+    if (m_colon)
+    {
+        m_colon->Shutdown();
+        delete m_colon;
+        m_colon = 0;
+    }
+    if (m_highScoresTitle)
+    {
+        m_highScoresTitle->Shutdown();
+        delete m_highScoresTitle;
+        m_highScoresTitle = 0;
+    }
+
+    
+	// Array Cleanup
+	if (m_numbers) {
+		for (int i = 0 ; i < 9; ++i) {
+            if (m_numbers[i])
+            {
+                m_numbers[i]->Shutdown();
+                delete m_numbers[i];
+                m_numbers[i] = 0;
+            }
+		}
+		delete[] m_numbers;
+        m_numbers = 0;
+	}
+	if (m_highScores) {
+		delete[] m_highScores;
+        m_highScores = 0;
+	}
+
+	debug ("ScoreScreen: object shutdown.");
+	return true;
 }
 
+
 // |----------------------------------------------------------------------------|
-// |							     logic()									|
+// |							     Logic()									|
 // |----------------------------------------------------------------------------|
 // The logic function, which will be called by the main game loop.
-int ScoreScreen::logic() {
-	debug ("ScoreScreen: logic() called.", 10);
+bool ScoreScreen::Logic() {
+	debug ("ScoreScreen: Logic() called.", 10);
 	
 	// Player and ball logic
 	if (m_player)
-		m_player->logic();
+		m_player->Logic();
 	if (m_ball)
-		m_ball->logic();
+		m_ball->Logic();
 
 	// Border Collisions
 	if(m_ball->Collision(m_top))
@@ -181,15 +277,15 @@ int ScoreScreen::logic() {
 	if(m_ball->Collision(m_menu))
         SoundClass::GetInstance()->PlayBreak();
 
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							     draw()										|
+// |							     Draw()										|
 // |----------------------------------------------------------------------------|
 // The draw function, which will be called by the main game loop.
-int ScoreScreen::draw() {
-	debug ("ScoreScreen: draw() called.", 10);
+bool ScoreScreen::Draw() {
+	debug ("ScoreScreen: Draw() called.", 10);
 	
 	// Draw Background
 	if (m_background)
@@ -198,10 +294,10 @@ int ScoreScreen::draw() {
 	// Draw High Score Title
 	if (m_highScoresTitle)
 		GraphicsClass::GetInstance()->BitmapRender(*m_highScoresTitle, 
-            (SCREEN_WIDTH-495*SCALE_X)/2, 50*SCALE_Y);
+            (int)((SCREEN_WIDTH-495*SCALE_X)/2), (int)(50*SCALE_Y));
     
-    int START_X = 300*SCALE_X;
-    int START_Y = (50+62+10)*SCALE_Y;
+    int START_X = (int)(300*SCALE_X);
+    int START_Y = (int)((50+62+10)*SCALE_Y);
 
     // Draw High Scores
     for (int i(0); i<10; ++i)
@@ -209,11 +305,11 @@ int ScoreScreen::draw() {
 		int tens = ((int)floor((float)(i+1)/10))%10;
 		int ones = (i+1)%10;
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]), 
-			START_X+0*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+0*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]), 
-			START_X+1*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+1*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_colon), 
-			START_X+2*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+2*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		int millions = ((int)floor((float)m_highScores[i]/1000000))%10;
 		int hundredthousands = ((int)floor((float)m_highScores[i]/100000))%10;
 		int tenthousands = ((int)floor((float)m_highScores[i]/10000))%10;
@@ -222,33 +318,33 @@ int ScoreScreen::draw() {
 		tens = ((int)floor((float)m_highScores[i]/10))%10;
 		ones = m_highScores[i]%10;
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[millions]), 
-			START_X+4*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+4*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundredthousands]), 
-			START_X+5*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+5*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tenthousands]),  
-			START_X+6*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+6*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[thousands]),
-			START_X+7*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+7*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundreds]), 
-			START_X+8*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+8*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]),  
-			START_X+9*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+9*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]),  
-			START_X+10*(26*SCALE_X), START_Y+i*(35*SCALE_Y));
+			START_X+10*(int)(26*SCALE_X), START_Y+i*(int)(35*SCALE_Y));
     }
 
-    START_X = SCREEN_WIDTH - 300*SCALE_X - 11*(26*SCALE_X);
+    START_X = (int)(SCREEN_WIDTH - 300*SCALE_X - 11*(26*SCALE_X));
 
     for (int i(10); i<20; ++i)
     {
 		int tens = ((int)floor((float)(i+1)/10))%10;
 		int ones = (i+1)%10;
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]), 
-			START_X+0*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+0*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]), 
-			START_X+1*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+1*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_colon), 
-			START_X+2*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+2*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		int millions = ((int)floor((float)m_highScores[i]/1000000))%10;
 		int hundredthousands = ((int)floor((float)m_highScores[i]/100000))%10;
 		int tenthousands = ((int)floor((float)m_highScores[i]/10000))%10;
@@ -257,67 +353,65 @@ int ScoreScreen::draw() {
 		tens = ((int)floor((float)m_highScores[i]/10))%10;
 		ones = m_highScores[i]%10;
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[millions]), 
-			START_X+4*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+4*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundredthousands]), 
-			START_X+5*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+5*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tenthousands]),  
-			START_X+6*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+6*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[thousands]),
-			START_X+7*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+7*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundreds]), 
-			START_X+8*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+8*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]),  
-			START_X+9*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+9*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]),  
-			START_X+10*(26*SCALE_X), START_Y+(i-10)*(35*SCALE_Y));
+			START_X+10*(int)(26*SCALE_X), START_Y+(i-10)*(int)(35*SCALE_Y));
     }
 
 	// Draw Buttons
 	if (m_menu)
-		m_menu->draw();
+		m_menu->Draw();
 
 	// Draw player and ball
 	if (m_player)
-		m_player->draw();
+		m_player->Draw();
 	if (m_ball)
-		m_ball->draw();
+		m_ball->Draw();
     
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							    onLoad()									|
+// |							    OnLoad()									|
 // |----------------------------------------------------------------------------|
 // Called when the screen is loaded.
-int ScoreScreen::onLoad() {
-	debug ("ScoreScreen: onLoad called.");
+bool ScoreScreen::OnLoad() {
+	debug ("ScoreScreen: OnLoad called.");
 
-	done = false;
+	m_done = false;
 	m_ball->Respawn();
-    loadScoresFromFile();
+    LoadScoresFromFile();
 
-	return error;
+	return true;
 }
 
 // |----------------------------------------------------------------------------|
-// |							    onExit()									|
+// |							    OnExit()									|
 // |----------------------------------------------------------------------------|
 // Called when switching to a different screen
-int ScoreScreen::onExit() {
-	debug ("ScoreScreen: onExit called.");
+bool ScoreScreen::OnExit() {
+	debug ("ScoreScreen: OnExit called.");
 
-	//if (music) music->stop();
-
-	return error;
+	return true;
 }
 
 
 // |----------------------------------------------------------------------------|
-// |							loadScoresFromFile()							|
+// |							LoadScoresFromFile()							|
 // |----------------------------------------------------------------------------|
-void ScoreScreen::loadScoresFromFile()
+void ScoreScreen::LoadScoresFromFile()
 {
-	debug ("ScoreScreen: loadScoresFromFile called.");
+	debug ("ScoreScreen: LoadScoresFromFile called.");
 	int i (0);
 	
 	ifstream inFile;  // object for reading from a file

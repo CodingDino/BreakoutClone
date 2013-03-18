@@ -1,6 +1,6 @@
-// Solar Exploration Sim
-// Developed for DirectX Coursework for Abertay University, based on tutorials from http://www.rastertek.com
-// Copyright Sarah Herzog, 2011, all rights reserved.
+// Breakout - Or A Clone Thereof
+// Developed for Ninja Kiwi
+// Author: Sarah Herzog
 //
 // D3dClass
 //		Controls main DirectX objects and handles backbuffer and display device
@@ -36,12 +36,10 @@ public:
 
 	// Singleton instance requests
 	static D3DClass* GetInstance();
-
-	// Initializes the DirectX interface
+    
+    // Initialization and shutdown
 	bool Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
 					float screenDepth, float screenNear);
-
-	// Performs shutdown, deallocation, and cleanup for DirectX objects
 	void Shutdown();
 	
 	// clears the buffers in preparation for scene rendering
