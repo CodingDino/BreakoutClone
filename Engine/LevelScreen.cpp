@@ -18,6 +18,7 @@
 LevelScreen::LevelScreen() :
 	m_background(0),
 	m_livesImage(0),
+	m_scoreImage(0),
 	m_player(0),
 	m_ball(0),
 	m_top(0),
@@ -34,7 +35,10 @@ LevelScreen::LevelScreen() :
 	m_dialogueBackground(0),
 	m_lives(3),
 	m_gameOver(false),
-	m_gameOverDialogue(0)
+	m_gameOverDialogue(0),
+    m_score(0),
+    m_highScores(0),
+    m_highScoreImage(0)
 {
 
 	// Set MENU as the next screen after this one
@@ -58,6 +62,16 @@ LevelScreen::LevelScreen() :
 	m_livesImage->Initialize(D3DClass::GetInstance()->GetDevice(), 
 		SCREEN_WIDTH, SCREEN_HEIGHT, 
 		L"../Engine/data/font_lives.png", 150*SCALE_X, 35*SCALE_Y);
+
+    // Score
+	m_scoreImage = new BitmapClass();
+	m_scoreImage->Initialize(D3DClass::GetInstance()->GetDevice(), 
+		SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/font_score.png", 150*SCALE_X, 35*SCALE_Y);
+	m_highScoreImage = new BitmapClass();
+	m_highScoreImage->Initialize(D3DClass::GetInstance()->GetDevice(), 
+		SCREEN_WIDTH, SCREEN_HEIGHT, 
+		L"../Engine/data/high_score.png", 481*SCALE_X, 275*SCALE_Y);
 
 	// Numbers
 	m_numbers = new BitmapClass*[10];
@@ -149,6 +163,13 @@ LevelScreen::LevelScreen() :
 	loadFromFile("../Engine/data/level_2.txt", m_level2);
 	loadFromFile("../Engine/data/level_3.txt", m_level3);
 
+    // High Scores
+    m_highScores = new int[20];
+    for (int i(0); i<20; ++i)
+    {
+        m_highScores[i] = 0;
+    }
+
 	debug ("LevelScreen: object instantiated.");
 }
 
@@ -160,6 +181,7 @@ LevelScreen::~LevelScreen() {
 	// Clean up all dynamic objects
 	delete m_background; m_background = 0;
 	delete m_dialogueBackground; m_dialogueBackground = 0;
+    delete m_highScoreImage; m_highScoreImage = 0;
 	delete m_gameOverDialogue; m_gameOverDialogue = 0;
 	delete m_player; m_player = 0;
 	delete m_ball; m_ball = 0;
@@ -254,13 +276,14 @@ int LevelScreen::logic() {
 	{
 		if (m_blocks[i])
 		{
-			m_ball->Collision(m_blocks[i]);
+			if(m_ball->Collision(m_blocks[i]))
+                m_score += 50;
 			if(m_blocks[i]->IsDead())
 			{
 				delete m_blocks[i];
 				m_blocks[i] = 0;
 				--m_activeBlocks;
-				// TODO: Increment score
+                m_score += 50;
 			}
 		}
 	}
@@ -269,6 +292,24 @@ int LevelScreen::logic() {
 	if (m_lives <= 0)
 	{
 		m_gameOver = true;
+
+        // Check for high score
+        if (m_score > m_highScores[19])
+        {
+            m_highScoreGet = true;
+            int prev_score = m_score;
+            int next_score = m_score;
+            for (int i=0; i<20; ++i)
+            {
+                if (prev_score >= m_highScores[i])
+                {
+                    next_score = m_highScores[i];
+                    m_highScores[i] = prev_score;
+                    prev_score = next_score;
+                }
+            }
+            saveScoresToFile();
+        }
 	}
 
 	return error;
@@ -288,8 +329,40 @@ int LevelScreen::draw() {
 	// Check if it's game over
 	if (m_gameOver)
 	{
-		// Display level dialogue
-		GraphicsClass::GetInstance()->BitmapRender(*m_gameOverDialogue, (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
+        if (m_highScoreGet)
+        {
+		    GraphicsClass::GetInstance()->BitmapRender(*m_highScoreImage, 
+                (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
+
+            int START_X = (SCREEN_WIDTH-7*(26*SCALE_X))/2;
+            int START_Y = (SCREEN_HEIGHT-275*SCALE_Y)/2+275*SCALE_Y*0.6;
+            
+		    int millions = ((int)floor((float)m_score/1000000))%10;
+		    int hundredthousands = ((int)floor((float)m_score/100000))%10;
+		    int tenthousands = ((int)floor((float)m_score/10000))%10;
+		    int thousands = ((int)floor((float)m_score/1000))%10;
+		    int hundreds = ((int)floor((float)m_score/100))%10;
+		    int tens = ((int)floor((float)m_score/10))%10;
+		    int ones = m_score%10;
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[millions]), 
+			    START_X+0*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundredthousands]), 
+			    START_X+1*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tenthousands]),  
+			    START_X+2*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[thousands]),
+			    START_X+3*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundreds]), 
+			    START_X+4*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]), 
+			    START_X+5*(26*SCALE_X), START_Y);
+		    GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]), 
+			    START_X+6*(26*SCALE_X), START_Y);
+
+        }
+        else
+		    GraphicsClass::GetInstance()->BitmapRender(*m_gameOverDialogue, 
+                (SCREEN_WIDTH-481*SCALE_X)/2, (SCREEN_HEIGHT-275*SCALE_Y)/2);
 
 		return error;
 	}
@@ -340,7 +413,30 @@ int LevelScreen::draw() {
 		if (m_lives > 9) m_lives = 9;
 		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[m_lives]), 
 			(SCREEN_WIDTH-400*SCALE_X)+150*SCALE_X, 0);
-
+        
+		GraphicsClass::GetInstance()->BitmapRender(*(m_scoreImage), 
+			(220*SCALE_X), 0);
+		int millions = ((int)floor((float)m_score/1000000))%10;
+		int hundredthousands = ((int)floor((float)m_score/100000))%10;
+		int tenthousands = ((int)floor((float)m_score/10000))%10;
+		int thousands = ((int)floor((float)m_score/1000))%10;
+		int hundreds = ((int)floor((float)m_score/100))%10;
+		int tens = ((int)floor((float)m_score/10))%10;
+		int ones = m_score%10;
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[millions]), 
+			(220*SCALE_X+150*SCALE_X)+0*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundredthousands]), 
+			(220*SCALE_X+150*SCALE_X)+1*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tenthousands]),  
+			(220*SCALE_X+150*SCALE_X)+2*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[thousands]),  
+			(220*SCALE_X+150*SCALE_X)+3*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[hundreds]),  
+			(220*SCALE_X+150*SCALE_X)+4*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[tens]),  
+			(220*SCALE_X+150*SCALE_X)+5*(26*SCALE_X), 0);
+		GraphicsClass::GetInstance()->BitmapRender(*(m_numbers[ones]),  
+			(220*SCALE_X+150*SCALE_X)+6*(26*SCALE_X), 0);
 		
 	}
 
@@ -363,6 +459,13 @@ int LevelScreen::onLoad() {
 
 	// Reset lives
 	m_lives = 3;
+
+    // Reset score
+    m_score = 0;
+    
+    // Load high scores
+    loadScoresFromFile();
+    m_highScoreGet = false;
 
 	return error;
 }
@@ -444,4 +547,55 @@ void LevelScreen::loadNext()
 			++m_activeBlocks;
 		}
 	}
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							loadScoresFromFile()							|
+// |----------------------------------------------------------------------------|
+void LevelScreen::loadScoresFromFile()
+{
+	debug ("LevelScreen: loadScoresFromFile called.");
+	int i (0);
+	
+	ifstream inFile;  // object for reading from a file
+	inFile.open("../Engine/data/high_scores.txt", ios::in);
+	if (!inFile) {
+		debug("LevelScreen: can't open score file.");
+		return;
+	}
+
+	while (!inFile.eof()) 
+	{
+		// read in this block
+		inFile >> m_highScores[i];
+
+		// increment
+		++i;
+	}
+
+
+}
+
+
+// |----------------------------------------------------------------------------|
+// |							  saveScoresToFile()							|
+// |----------------------------------------------------------------------------|
+void LevelScreen::saveScoresToFile()
+{
+	debug ("LevelScreen: saveScoresToFile called.");
+	int i (0);
+	
+	ofstream outFile;  // object for reading from a file
+	outFile.open("../Engine/data/high_scores.txt", ios::out);
+	if (!outFile) {
+		debug("LevelScreen: can't open score file.");
+		return;
+	}
+
+    for (int i(0); i<20; ++i)
+    {
+        outFile << m_highScores[i] << " ";
+    }
+
 }

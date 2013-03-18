@@ -41,6 +41,9 @@ public:
 
 	int virtual onExit();
 	// Called when switching to a different screen
+
+	void loadScoresFromFile();
+	// Loads high scores from file
 	
 protected:
 
@@ -59,4 +62,10 @@ protected:
 
 	// Button
 	Button* m_menu;
+
+    // Score
+	BitmapClass** m_numbers;
+	BitmapClass* m_colon;
+	BitmapClass* m_highScoresTitle;
+    int* m_highScores;
 };

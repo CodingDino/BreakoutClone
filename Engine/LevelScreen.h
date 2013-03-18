@@ -51,6 +51,12 @@ public:
 
 	void loadNext();
 	// Loads the next level
+
+	void loadScoresFromFile();
+	// Loads high scores from file
+
+	void saveScoresToFile();
+	// Saves high scores to file
 	
 protected:
 
@@ -86,5 +92,12 @@ protected:
 	BitmapClass* m_livesImage;
 	bool m_gameOver;
 	BitmapClass* m_gameOverDialogue;
+
+    // Score
+    int m_score;
+	BitmapClass* m_scoreImage;
+    int* m_highScores;
+	BitmapClass* m_highScoreImage;
+    bool m_highScoreGet;
 
 };
