@@ -17,6 +17,7 @@
 #include "Ball.h"
 #include "Block.h"
 #include "inputclass.h"
+#include "SoundClass.h"
 #include <iostream>
 #include <fstream>
 using namespace std;

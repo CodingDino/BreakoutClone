@@ -258,9 +258,12 @@ int LevelScreen::logic() {
 		m_ball->logic();
 
 	// Border Collisions
-	m_ball->Collision(m_top);
-	m_ball->Collision(m_left);
-	m_ball->Collision(m_right);
+	if(m_ball->Collision(m_top))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_left))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_right))
+        SoundClass::GetInstance()->PlayBounce();
 	if(m_ball->CheckCollision(m_bottom))
 	{
 		m_ball->Respawn();
@@ -269,7 +272,10 @@ int LevelScreen::logic() {
 
 	// Player Collisions
 	if(m_ball->Collision(m_player))
+    {
 		m_ball->PlayerCollide(m_player);
+        SoundClass::GetInstance()->PlayBounce();
+    }
 
 	// Block Collisions
 	for (int i=0; i<m_numBlocks; ++i)
@@ -277,14 +283,21 @@ int LevelScreen::logic() {
 		if (m_blocks[i])
 		{
 			if(m_ball->Collision(m_blocks[i]))
+            {
                 m_score += 50;
-			if(m_blocks[i]->IsDead())
-			{
-				delete m_blocks[i];
-				m_blocks[i] = 0;
-				--m_activeBlocks;
-                m_score += 50;
-			}
+			    if(m_blocks[i]->IsDead())
+			    {
+				    delete m_blocks[i];
+				    m_blocks[i] = 0;
+				    --m_activeBlocks;
+                    m_score += 50;
+                    SoundClass::GetInstance()->PlayBreak();
+			    }
+                else
+                {
+                    SoundClass::GetInstance()->PlayBounce();
+                }
+            }
 		}
 	}
 

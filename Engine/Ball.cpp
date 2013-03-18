@@ -86,6 +86,7 @@ int Ball::logic() {
 		m_attached = false;
 		m_velocity.y = (float)-1*m_speed;
 		m_velocity.x = 0;
+        SoundClass::GetInstance()->PlayFire();
 	}
 
 	// Move with paddle if attached

@@ -161,18 +161,25 @@ int ScoreScreen::logic() {
 		m_ball->logic();
 
 	// Border Collisions
-	m_ball->Collision(m_top);
-	m_ball->Collision(m_left);
-	m_ball->Collision(m_right);
+	if(m_ball->Collision(m_top))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_left))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_right))
+        SoundClass::GetInstance()->PlayBounce();
 	if(m_ball->CheckCollision(m_bottom))
 		m_ball->Respawn();
 
 	// Player Collisions
 	if(m_ball->Collision(m_player))
+    {
 		m_ball->PlayerCollide(m_player);
+        SoundClass::GetInstance()->PlayBounce();
+    }
 
 	// Button
-	m_ball->Collision(m_menu);
+	if(m_ball->Collision(m_menu))
+        SoundClass::GetInstance()->PlayBreak();
 
 	return error;
 }

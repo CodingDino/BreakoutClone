@@ -67,10 +67,11 @@ public:
 	bool Frame(float frameTime);
  
 	// Play functions
-	bool StartShipEngine();
-	bool StopShipEngine();
 	bool StartMusic();
 	bool StopMusic();
+	bool PlayBounce();
+	bool PlayBreak();
+	bool PlayFire();
 
 	// Toggle Mute
 	bool Mute();
@@ -108,16 +109,16 @@ private:
 
 	// Hold the sound samples
 	IDirectSoundBuffer8* m_music;
-	//IDirectSoundBuffer8* m_shipEngine;
+	IDirectSoundBuffer8* m_break;
+	IDirectSoundBuffer8* m_bounce;
+	IDirectSoundBuffer8* m_fire;
 
 	// Mute toggle
 	bool m_globalMute;
 
 	// Play booleans
 	bool m_playMusic;
-	bool m_playShipEngine;
 
 	// Volume sliders
 	LONG m_volumeMusic;
-	LONG m_volumeShipEngine;
 };

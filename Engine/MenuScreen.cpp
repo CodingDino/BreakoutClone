@@ -134,20 +134,31 @@ int MenuScreen::logic() {
 		m_player->logic();
 	if (m_ball)
 		m_ball->logic();
-
-	// Handle collisions
-	m_ball->Collision(m_top);
-	m_ball->Collision(m_left);
-	m_ball->Collision(m_right);
-	if(m_ball->Collision(m_player))
-		m_ball->PlayerCollide(m_player);
-
+    
+	// Border Collisions
+	if(m_ball->Collision(m_top))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_left))
+        SoundClass::GetInstance()->PlayBounce();
+	if(m_ball->Collision(m_right))
+        SoundClass::GetInstance()->PlayBounce();
 	if(m_ball->CheckCollision(m_bottom))
 		m_ball->Respawn();
+
+	// Player Collisions
+	if(m_ball->Collision(m_player))
+    {
+		m_ball->PlayerCollide(m_player);
+        SoundClass::GetInstance()->PlayBounce();
+    }
 	
-	m_ball->Collision(m_start);
-	m_ball->Collision(m_scores);
-	m_ball->Collision(m_quit);
+	// Buttons
+	if(m_ball->Collision(m_start))
+        SoundClass::GetInstance()->PlayBreak();
+	if(m_ball->Collision(m_scores))
+        SoundClass::GetInstance()->PlayBreak();
+	if(m_ball->Collision(m_quit))
+        SoundClass::GetInstance()->PlayBreak();
 
 	return error;
 }

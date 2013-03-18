@@ -33,12 +33,12 @@ SoundClass::SoundClass() :
 	m_DirectSound(0),
 	m_primaryBuffer(0),
 	m_music(0),
-//	m_shipEngine(0),
+	m_break(0),
+	m_bounce(0),
+	m_fire(0),
 	m_playMusic(false),
-	m_playShipEngine(false),
 	m_globalMute(false),
-	m_volumeMusic(DSBVOLUME_MIN),
-	m_volumeShipEngine(DSBVOLUME_MIN)
+	m_volumeMusic(DSBVOLUME_MIN)
 {
 }
  
@@ -74,25 +74,34 @@ bool SoundClass::Initialize(HWND hwnd)
 		return false;
 	}
  
-	// Load a wave audio file onto a secondary buffer.
+	// Load a wave audio files onto a secondary buffer.
 	result = LoadWaveFile("../Engine/data/music05.wav", &m_music, hwnd);
 	if(!result)
 	{
 		MessageBox(hwnd, L"Could not load music05.wav.", L"Error", MB_OK);
 		return false;
 	}
- 
-	// Load a wave audio file onto a secondary buffer.
-	//result = LoadWaveFile("../Engine/data/engine_sound02.wav", &m_shipEngine, hwnd);
-	//if(!result)
-	//{
-	//	MessageBox(hwnd, L"Could not load engine_sound02.wav.", L"Error", MB_OK);
-	//	return false;
-	//}
+	result = LoadWaveFile("../Engine/data/sound_fire.wav", &m_fire, hwnd);
+	if(!result)
+	{
+		MessageBox(hwnd, L"Could not load sound_fire.wav.", L"Error", MB_OK);
+		return false;
+	}
+	result = LoadWaveFile("../Engine/data/sound_bounce.wav", &m_bounce, hwnd);
+	if(!result)
+	{
+		MessageBox(hwnd, L"Could not load sound_bounce.wav.", L"Error", MB_OK);
+		return false;
+	}
+	result = LoadWaveFile("../Engine/data/sound_break.wav", &m_break, hwnd);
+	if(!result)
+	{
+		MessageBox(hwnd, L"Could not load sound_break.wav.", L"Error", MB_OK);
+		return false;
+	}
 
 	// Start everything playing (it will be silent)
 	m_music->Play(0, 0, DSBPLAY_LOOPING);
-	//m_shipEngine->Play(0, 0, DSBPLAY_LOOPING);
 
 	return true;
 }
@@ -105,7 +114,9 @@ void SoundClass::Shutdown()
 {
 	// Release the secondary buffers.
 	ShutdownWaveFile(&m_music);
-	//ShutdownWaveFile(&m_shipEngine);
+	ShutdownWaveFile(&m_break);
+	ShutdownWaveFile(&m_bounce);
+	ShutdownWaveFile(&m_fire);
 
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
@@ -417,13 +428,6 @@ bool SoundClass::Frame(float frameTime)
 		return false;
 	}
 
-	// Process Ship Engine
-	//result =  ProcessSound(frameTime, m_shipEngine, m_playShipEngine, m_volumeShipEngine);
-	//if(!result)
-	//{
-	//	return false;
-	//}
-
 	return true;
 
 }
@@ -438,8 +442,6 @@ bool SoundClass::ProcessSound(float frameTime, IDirectSoundBuffer8* &buffer,
 	HRESULT result;
  
 	// Update volume
-	//if (onOffSetting) volume = DSBVOLUME_MAX;
-	//else volume = DSBVOLUME_MIN;
 	if (onOffSetting) volume += 100;
 	else volume -= 100;
 	if (volume > DSBVOLUME_MAX) volume = DSBVOLUME_MAX;
@@ -457,21 +459,31 @@ bool SoundClass::ProcessSound(float frameTime, IDirectSoundBuffer8* &buffer,
 
 
 // |----------------------------------------------------------------------------|
-// |						        StartShipEngine								|
+// |						        PlayBounce		    						|
 // |----------------------------------------------------------------------------|
-bool SoundClass::StartShipEngine()
+bool SoundClass::PlayBounce()
 {
-	//m_playShipEngine = true;
+	m_bounce->Play(0, 0, 0);
 	return true;
 }
 
 
 // |----------------------------------------------------------------------------|
-// |						        StopShipEngine								|
+// |						        PlayBreak				    				|
 // |----------------------------------------------------------------------------|
-bool SoundClass::StopShipEngine()
+bool SoundClass::PlayBreak()
 {
-	//m_playShipEngine = false;
+	m_break->Play(0, 0, 0);
+	return true;
+}
+
+
+// |----------------------------------------------------------------------------|
+// |						        PlayFire			    					|
+// |----------------------------------------------------------------------------|
+bool SoundClass::PlayFire()
+{
+	m_fire->Play(0, 0, 0);
 	return true;
 }
 
