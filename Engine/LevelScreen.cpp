@@ -599,6 +599,7 @@ bool LevelScreen::OnLoad() {
 
 	// Reset lives
 	m_lives = 3;
+	m_gameOver = false;
 
     // Reset score
     m_score = 0;
